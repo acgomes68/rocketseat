@@ -1,16 +1,13 @@
 const express = require('express');
+const routes = require('./routes');
+const mongoose = require('mongoose');
 const app = express();
 
-app.get('/', (req, res) => {
-    return res.json({message: "Hello brave new world"});
+mongoose.connect('mongodb+srv://omnistack:omnistack@omnistack-57ukh.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
-
-app.post('/users', (req, res) => {
-    return res.json({user: req.post.user});
-});
-
-app.get('/contacts', (req, res) => {
-    return res.json({contact: req.query.contact});
-});
+app.use(express.json());
+app.use(routes);
 
 app.listen(3333);
