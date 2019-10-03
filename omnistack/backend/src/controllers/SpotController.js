@@ -1,37 +1,116 @@
-const User = require('../models/Spot');
+const Spot = require('../models/Spot');
+const User = require('../models/User');
 
 module.exports = {
-    index(req, res) {
-        return res.json(req.body);
+    async index(req, res) {
+        const { tech } = req.query;
+        let spot;
+
+        if (tech) {
+            spot = await Spot.find({ techs: tech});
+        }
+        else {
+            spot = await Spot.find();
+        }
+        return res.json(spot);
     },
-    show(req, res) {
-        return res.json(req.body);
+    async show(req, res) {
+        const { id } = req.params;
+        const spot = await Spot.findById(id);
+
+        if (spot) {
+            return res.json(spot);
+        }
+        else {
+            return res.status(400).json({ error: 'Spot does not exist' });
+        }
     },
     async store(req, res) {
-        console.log(req.body);
-        console.log(req.file);
-
-        return res.json({ ok: true });
-
-        // const { thumbnail } = req.body;
-        // const { company } = req.body;
-        // const { price } = req.body;
-        // const { techs } = req.body;
-        // const { user } = req.body;
-
-
-        // let spot = await User.findOne({ email });
-
-        // if (!spot) {
-        //     spot = await Spot.create({ thumbnail, company, price, techs, user });
-        // }
-
-        // return res.json(spot);
+        const { filename } = req.file;
+        const { company, price, techs } = req.body;
+        const { user_id } = req.headers;
+        const has_user = await User.findById(user_id);
+        let spot, msg, status;
+        
+        if (!has_user) {
+            status = 400;
+            msg = 'User does not exist';
+        }
+        else {
+            spot = await Spot.create({ 
+                user: user_id,
+                thumbnail: filename, 
+                company, 
+                techs: techs.split(',').map(tech => tech.trim()), 
+                price,
+            });
+            if (spot) {
+                status = 200;
+                msg = 'Spot added successfully';
+            }
+            else {
+                status = 400;
+                msg = 'Errors founded during adding spot';
+            }
+        }
+        return res.status(status).json({ error: msg });
     },
-    update(req, res) {
-        return res.json(req.body);
+    async update(req, res) {
+        const { id } = req.params;
+        const { filename } = req.file;
+        const { company, price, techs } = req.body;
+        const { user_id } = req.headers;
+        const has_user = await User.findById(user_id);
+        const has_spot = await Spot.findById(id);
+        let spot, msg, status;
+
+        if (!has_spot) {
+            status = 400;
+            msg = 'Spot does not exist';
+        }
+        else if (!has_user) {
+            status = 400;
+            msg = 'User does not exist';
+        }
+        else {
+            spot = await Spot.findByIdAndUpdate(id, { 
+            user: user_id,
+            thumbnail: filename, 
+            company, 
+            techs: techs.split(',').map(tech => tech.trim()), 
+            price,
+            });
+            if (spot) {
+                status = 200;
+                msg = 'Spot updated successfully';
+            }
+            else {
+                status = 400;
+                msg = 'Errors founded during updating spot';
+            }
+        }
+        return res.status(status).json({ error: msg });
     },
-    destroy(req, res) {
-        return res.json(req.body);
+    async destroy(req, res) {
+        const { id } = req.params;
+        const has_spot = await Spot.findById(id);
+        let spot, msg, status;
+
+        if (has_spot) {
+            spot = await Spot.findByIdAndDelete(id);
+            if (spot) {
+                status = 200;
+                msg = 'Spot deleted successfully';
+            }
+            else {
+                status = 400;
+                msg = 'Errors founded during deleting spot';
+            }
+        }
+        else {
+            status = 400;
+            msg = 'Spot does not exist';
+        }
+        return res.status(status).json({ error: msg });
     },
 };
