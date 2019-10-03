@@ -44,9 +44,11 @@ module.exports = {
                 techs: techs.split(',').map(tech => tech.trim()), 
                 price,
             });
+            await spot.populate('user').execPopulate();
             if (spot) {
                 status = 200;
                 msg = 'Spot added successfully';
+                return res.json(spot);
             }
             else {
                 status = 400;
@@ -83,6 +85,7 @@ module.exports = {
             if (spot) {
                 status = 200;
                 msg = 'Spot updated successfully';
+                return res.json(spot);
             }
             else {
                 status = 400;
@@ -101,6 +104,7 @@ module.exports = {
             if (spot) {
                 status = 200;
                 msg = 'Spot deleted successfully';
+                return res.json(spot);
             }
             else {
                 status = 400;

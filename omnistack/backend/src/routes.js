@@ -37,5 +37,6 @@ routes.get('/dashboard', DashboardController.show);
 // Booking
 routes.get('/bookings', BookingController.index);
 routes.post('/spots/:spot_id/bookings', BookingController.store);
+routes.delete('/bookings/:id', BookingController.destroy);
 
 module.exports = routes;

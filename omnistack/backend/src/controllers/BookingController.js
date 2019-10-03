@@ -65,13 +65,38 @@ module.exports = {
                 spot: spot_id,
                 date,
             });
+            await booking.populate('user').populate('spot').execPopulate();
             if (booking) {
                 status = 200;
                 msg = 'Booking added successfully';
+                return res.json(booking);
             }
             else {
                 status = 400;
                 msg = 'Errors founded during adding booking';
+            }
+        }
+        return res.status(status).json({ error: msg });
+    },
+    async destroy(req, res) {
+        const { id } = req.params;
+        const has_booking = await Booking.findById(id);
+        let booking, msg, status;
+
+        if (!has_booking) {
+            status = 400;
+            msg = 'Booking does not exist';
+        }
+        else {
+            booking = await Booking.findByIdAndDelete(id);
+            if (booking) {
+                status = 200;
+                msg = 'Booking deleted successfully';
+                return res.json(booking);
+            }
+            else {
+                status = 400;
+                msg = 'Errors founded during deleting booking';
             }
         }
         return res.status(status).json({ error: msg });

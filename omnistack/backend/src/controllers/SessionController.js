@@ -18,7 +18,7 @@ module.exports = {
         }
     },
     async store(req, res) {
-        const { name, email } = req.body;
+        const { email } = req.body;
         const has_user = await User.findOne({ email });
         let user, msg, status;
 
@@ -27,10 +27,11 @@ module.exports = {
             msg = 'User already exists';
         }
         else {
-            user = await User.create({ name, email });
+            user = await User.create({ email });
             if (user) {
                 status = 200;
                 msg = 'User added successfully';
+                return res.json(user);
             }
             else {
                 status = 400;
@@ -41,15 +42,16 @@ module.exports = {
     },
     async update(req, res) {
         const { id } = req.params;
-        const { name, email } = req.body;
+        const { email } = req.body;
         const has_user = await User.findById(id);
         let user, msg, status;
 
         if (has_user) {
-            user = await User.findByIdAndUpdate(id, { name, email });
+            user = await User.findByIdAndUpdate(id, { email });
             if (user) {
                 status = 200;
                 msg = 'User updated successfully';
+                return res.json(user);
             }
             else {
                 status = 400;
@@ -81,6 +83,7 @@ module.exports = {
             if (user) {
                 status = 200;
                 msg = 'User deleted successfully';
+                return res.json(user);
             }
             else {
                 status = 400;

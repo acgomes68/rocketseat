@@ -11,9 +11,9 @@ function App() {
     event.preventDefault();
 
     const response = await api.post('/users', { email });
+    const { _id } = response.data;
 
-    console.log(response);
-
+    localStorage.setItem('user', _id);
   }
 
   return (
