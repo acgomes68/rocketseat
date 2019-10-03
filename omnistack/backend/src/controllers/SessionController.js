@@ -19,14 +19,10 @@ module.exports = {
     },
     async store(req, res) {
         const { email } = req.body;
-        const has_user = await User.findOne({ email });
-        let user, msg, status;
+        let user = await User.findOne({ email });
+        let msg, status;
 
-        if (has_user) {
-            status = 400;
-            msg = 'User already exists';
-        }
-        else {
+        if (!user) {
             user = await User.create({ email });
             if (user) {
                 status = 200;
@@ -36,9 +32,10 @@ module.exports = {
             else {
                 status = 400;
                 msg = 'Errors founded during adding user';
+                return res.status(status).json({ error: msg });
             }
         }
-        return res.status(status).json({ error: msg });
+        return res.json(user);
     },
     async update(req, res) {
         const { id } = req.params;
