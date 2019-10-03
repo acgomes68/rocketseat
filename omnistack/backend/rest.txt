@@ -1,0 +1,21 @@
+### Index
+
+GET http://localhost:3333/users HTTP/1.1
+
+
+
+### Show
+
+GET http://localhost:3333/users/5d9553462cd90f3d8e48d38b HTTP/1.1
+
+
+
+### Store
+
+POST http://localhost:3333/users/ HTTP/1.1
+content-type: application/json
+
+{
+	"name": "Esse é pra apagar de novo",
+	"email": "esse.apaga.denovo@mail.com"
+}
