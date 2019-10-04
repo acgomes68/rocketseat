@@ -3,7 +3,7 @@ require('dotenv').config({
 });
 const mongoose = require('mongoose');
 
-const { API_URI, API_PORT } = process.env;
+const { API_URL, API_PORT } = process.env;
 
 const SpotSchema = new mongoose.Schema({
     thumbnail: String,
