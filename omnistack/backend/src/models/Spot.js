@@ -1,4 +1,9 @@
+require('dotenv').config({
+    path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
+});
 const mongoose = require('mongoose');
+
+const { API_URI, API_PORT } = process.env;
 
 const SpotSchema = new mongoose.Schema({
     thumbnail: String,
@@ -16,7 +21,7 @@ const SpotSchema = new mongoose.Schema({
 });
 
 SpotSchema.virtual('thumbnail_url').get(function() {
-    return `http://192.168.0.50:3333/files/${this.thumbnail}`;
+    return `http://${API_URL}:${API_PORT}/files/${this.thumbnail}`;
 });
 
 module.exports = mongoose.model('Spot', SpotSchema);
