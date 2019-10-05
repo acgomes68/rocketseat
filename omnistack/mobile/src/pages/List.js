@@ -23,12 +23,12 @@ export default function List({ navigation }) {
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <Image style={styles.logo} source={logo} />
             <TouchableOpacity onPress={handleLogout} style={styles.button}>
                 <Text style={styles.buttonText}>Sair</Text>
             </TouchableOpacity>
-            <ScrollView>
+            <ScrollView style={styles.scroll}>
                 {techs ? techs.map(tech => <SpotList key={tech} tech={tech} />) : <Text>Nada</Text>}
             </ScrollView>
         </SafeAreaView>
@@ -38,6 +38,7 @@ export default function List({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        margin: 5,
     },
     logo: {
         height: 32,

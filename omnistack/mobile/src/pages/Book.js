@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Alert, StyleSheet, AsyncStorage, Text, TextInput, TouchableOpacity } from 'react-native'
+import { SafeAreaView, Image, Alert, StyleSheet, AsyncStorage, Text, TextInput, TouchableOpacity } from 'react-native'
 
 import api from '../services/api';
+
+import logo from '../assets/logo.png';
 
 export default function Book({ navigation }) {
     const [date, setDate] = useState('');
@@ -18,22 +20,19 @@ export default function Book({ navigation }) {
 
         Alert.alert('Solicitação de reserva enviada.');
 
-        backToList();
-    }
-
-    function backToList() {
-        navigation.navigate('List');
+        handleCancel()
     }
 
     function handleCancel() {
-        backToList();
+        navigation.navigate('List');
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={StyleSheet.label}>Data de interesse(*)</Text>
+            <Image style={styles.logo} source={logo} />
+            <Text style={styles.label}>Data de interesse(*)</Text>
             <TextInput 
-                style={StyleSheet.input}
+                style={styles.input}
                 placeholder="Qual data você quer reservar?"
                 placeholderTextColor="#999"
                 keyboardType="numbers-and-punctuation"
@@ -53,7 +52,13 @@ export default function Book({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 30,
+        marginHorizontal: 30,
+    },
+    logo: {
+        height: 32,
+        resizeMode: "contain",
+        alignSelf: "center",
+        marginTop: 10,
     },
     label: {
         fontWeight: "bold",
