@@ -29,3 +29,14 @@ ul.spot-list li span {
     font-size: 15px;
     color: #999;
 }
+
+.content button.btnCadastrar {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.content button.btnSair {
+    width: 80px;
+    margin-bottom: 10px;
+    margin-left: 110px;
+}

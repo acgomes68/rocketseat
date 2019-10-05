@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import camera from '../../assets/camera.svg';
 import api from '../../services/api';
 import './styles.css';
@@ -67,7 +68,8 @@ export default function New({ history }) {
                 value={price}
                 onChange={event => setPrice(event.target.value)}
             />
-            <button type="submit" className="btn">Cadastrar</button>
+            <button type="submit" className="btn btnCadastrar">Cadastrar</button>
+            <Link to="/dashboard"><button className="btn btnVoltar">Voltar</button></Link>
         </form>
     );
 }

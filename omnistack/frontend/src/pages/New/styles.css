@@ -20,3 +20,13 @@ label#thumbnail.has-thumbnail {
 label#thumbnail.has-thumbnail img {
     display: none;
 }
+
+.content button.btnCadastrar {
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.content button.btnVoltar {
+    width: 80px;
+    margin-bottom: 10px;
+}

@@ -18,6 +18,8 @@ export default function Dashboard() {
     }, []);
     return (
         <>
+            <Link to="/new"><button className="btn btnCadastrar">Cadastrar novo spot</button></Link>
+            <Link to="/"><button className="btn btnSair">Sair</button></Link>
             <ul className="spot-list">
                 {spots.map(spot => (
                     <li key={ spot._id }>
@@ -27,7 +29,6 @@ export default function Dashboard() {
                     </li>
                 ))}
             </ul>
-            <Link to="/new"><button className="btn">Cadastrar novo spot</button></Link>
         </>
     );
 }

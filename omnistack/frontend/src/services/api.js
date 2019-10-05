@@ -4,9 +4,10 @@ require('dotenv').config({
     path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
 });
 
+const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
+
 const api = axios.create({
-    // baseURL: `http://${API_URL}:${API_PORT}`,
-    baseURL: `http://192.168.0.50:3333`,
+    baseURL: `${REACT_APP_API_URL}:${REACT_APP_API_PORT}`,
 })
 
 export default api;
