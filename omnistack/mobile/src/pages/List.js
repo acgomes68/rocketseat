@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text, TouchableOpacity, StyleSheet, Image, AsyncStorage } from 'react-native';
+import { SafeAreaView, Text, ScrollView, TouchableOpacity, StyleSheet, Image, AsyncStorage } from 'react-native';
 
 import SpotList from '../components/SpotList';
 
@@ -10,7 +10,7 @@ export default function List({ navigation }) {
 
     useEffect(() => {
         AsyncStorage.getItem('techs').then(storagedTechs => {
-            const techsArray = techsArray ? storagedTechs.split(',').map(tech => tech.trim()) : null;
+            const techsArray = storagedTechs ? storagedTechs.split(',').map(tech => tech.trim()) : null;
             setTechs(techsArray);
         })
     }, []);
@@ -28,7 +28,9 @@ export default function List({ navigation }) {
             <TouchableOpacity onPress={handleLogout} style={styles.button}>
                 <Text style={styles.buttonText}>Sair</Text>
             </TouchableOpacity>
-            {techs ? techs.map(tech => <SpotList key={tech} tech={tech} />) : <Text>Nada</Text>}
+            <ScrollView>
+                {techs ? techs.map(tech => <SpotList key={tech} tech={tech} />) : <Text>Nada</Text>}
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -44,14 +46,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     button: {
-        height: 42,
+        height: 22,
         backgroundColor: "#f05a5b",
-        alignSelf: "center",
+        alignSelf: "flex-end",
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 4,
-        marginTop: 10,
-        width: "30%",
+        marginRight: 10,
+        width: "20%",
     },
     buttonText: {
         color: "#fff",

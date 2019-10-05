@@ -6,8 +6,8 @@ import api from '../services/api';
 import logo from '../assets/logo.png';
 
 export default function Login({ navigation }) {
-    const [email, setEmail] = useState('acgomes68@gmai.com');
-    const [techs, setTechs] = useState('NodeJS, ReactJS, Python');
+    const [email, setEmail] = useState('');
+    const [techs, setTechs] = useState('');
 
     useEffect(() => {
         AsyncStorage.getItem('user').then(user => {
@@ -24,16 +24,8 @@ export default function Login({ navigation }) {
 
         const { _id } = response.data;
 
-        console.log('techs: ', techs);
-
         await AsyncStorage.setItem('user', _id);
         await AsyncStorage.setItem('techs', techs);
-
-        const x = AsyncStorage.getItem('techs');
-
-
-        console.log('x: ', x);
-
 
         navigation.navigate('List');
     }
