@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 15,
         color: "#999",
-        margiTop: 5,
+        marginTop: 5,
     },
     button: {
         height: 32,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 2,
-        margiTop: 15,
+        marginTop: 15,
     },
     buttonText: {
         color: "#fff",
