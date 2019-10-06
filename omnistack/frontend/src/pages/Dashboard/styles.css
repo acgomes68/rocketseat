@@ -30,13 +30,52 @@ ul.spot-list li span {
     color: #999;
 }
 
-.content button.btnCadastrar {
-    width: 200px;
+.content button.btnDashboardCadastrar {
+    width: 75% !important;
     margin-bottom: 10px;
+    padding: 0 10px;
 }
 
 .content button.btnSair {
-    width: 80px;
+    width: 20% !important;
     margin-bottom: 10px;
-    margin-left: 110px;
+    margin-left: 5%;
+    padding: 0 10px;
+}
+
+ul.notifications {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+ul.notifications li {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+ul.notifications li button {
+    margin-right: 10px;
+    border: 0;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 10px;
+    color: #fff;
+    border-radius: 2px;
+}
+
+ul.notifications li button.accept {
+    background-color: #84c870
+}
+
+ul.notifications li button.accept:hover {
+    background-color: #4fc52b
+}
+
+ul.notifications li button.reject {
+    background-color: #e55e5e
+}
+
+ul.notifications li button.reject:hover {
+    background-color: #e73737
 }

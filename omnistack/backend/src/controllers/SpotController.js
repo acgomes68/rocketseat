@@ -3,11 +3,19 @@ const User = require('../models/User');
 
 module.exports = {
     async index(req, res) {
-        const { tech } = req.query;
+        const { tech, user } = req.query;
         let spot;
 
         if (tech) {
-            spot = await Spot.find({ techs: tech});
+            if (user) {
+                spot = await Spot.find({ techs: tech, user: user});
+            }
+            else {
+                spot = await Spot.find({ techs: tech});
+            }
+        }
+        else if (user) {
+            spot = await Spot.find({ user: user});
         }
         else {
             spot = await Spot.find();

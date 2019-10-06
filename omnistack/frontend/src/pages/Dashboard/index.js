@@ -12,9 +12,11 @@ export default function Dashboard() {
     const [requests, setRequests] = useState([]);
 
     const user_id = localStorage.getItem('user');
-    const socket = useMemo(() => socketio(`${config.REACT_APP_API_URL}:${config.REACT_APP_API_PORT}`, {
-        query: { user_id },
-    }), [user_id]);
+    const socket = useMemo(() => {
+        return socketio(`${config.REACT_APP_API_URL}:${config.REACT_APP_API_PORT}`, {
+            query: { user_id },
+        });
+    }, [user_id]);
 
     useEffect(() => {
         socket.on('booking_request', data => {
@@ -34,16 +36,17 @@ export default function Dashboard() {
     }, []);
     return (
         <>
-            <Link to="/new"><button className="btn btnCadastrar">Cadastrar novo spot</button></Link>
-            <Link to="/"><button className="btn btnSair">Sair</button></Link>
+            <Link to="/new"><button className="btn btnDashboardCadastrar">Cadastrar novo spot</button></Link>
+            <Link to="/login"><button className="btn btnSair">Sair</button></Link>
+
             <ul className="notifications">
                 {requests.map(request => (
                     <li key={request._id}>
                         <p>
-                            <strong>{request.user.email}</strong> está solicitando uma reserva em <strong>{request.spot.company}</strong> para a data <strong>re]quest.date</strong>
+                            <strong>{request.user.email}</strong> está solicitando uma reserva em <strong>{request.spot.company}</strong> para a data <strong>{request.date}</strong>
                         </p>
-                        <button>ACEITAR</button>
-                        <button>REJEITAR</button>
+                        <button className="accept">ACEITAR</button>
+                        <button className="reject">REJEITAR</button>
                     </li>
                 ))}
             </ul>
