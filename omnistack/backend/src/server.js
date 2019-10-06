@@ -12,8 +12,19 @@ const app = express();
 const server = http.Server(app);
 const io = socketio(server);
 
+const connectedUsers = {};
+
 io.on('connection', socket => {
-    console.log('Usuário conectado', socket.id);
+    const { user_id } = socket.handshake.query;
+
+    connectedUsers[user_id] = socket.io;
+});
+
+app.use((req, res, next) => {
+    req.io = io;
+    req.connectedUsers = connectedUsers;
+
+    return next();
 });
 
 mongoose.connect(

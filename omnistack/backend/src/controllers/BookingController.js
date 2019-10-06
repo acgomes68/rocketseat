@@ -49,7 +49,7 @@ module.exports = {
         const { date } = req.body;
         const has_spot = await Spot.findById(spot_id);
         const has_user = await User.findById(user_id);
-        let booking, msg, status;
+        let booking, msg, status, ownerSocket;
 
         if (!has_user) {
             status = 400;
@@ -67,8 +67,11 @@ module.exports = {
             });
             await booking.populate('user').populate('spot').execPopulate();
             if (booking) {
-                status = 200;
-                msg = 'Booking added successfully';
+                ownerSocket = req.connectedUsers[booking.spot.user];
+                if (ownerSocket) {
+                    req.io.to(ownerSocket).emit('booking_request', booking);
+                }
+
                 return res.json(booking);
             }
             else {
