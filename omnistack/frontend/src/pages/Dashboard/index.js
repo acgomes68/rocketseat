@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import socketio from 'socket.io-client';
+
+import config from '../../config';
 import api from '../../services/api';
+
 import './styles.css';
 
 export default function Dashboard() {
     const [spots, setSpots] = useState([]);
+
+    useEffect(() => {
+        // eslint-disable-next-line
+        const socket = socketio(`${config.REACT_APP_API_URL}:${config.REACT_APP_API_PORT}`);
+    }, []);
 
     useEffect(() => {
         async function loadSpots() {
