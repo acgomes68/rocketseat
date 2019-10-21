@@ -1,0 +1,236 @@
+Preparação do Ambiente
+Node LTS
+Latest LTS Version: 10.16.3 (includes npm 6.9.0)
+http://nodejs.org
+usar package manager
+adicionar repositório com curl/apt-key da versão LTS
+sudo apt-get install -y nodejs
+node -v
+npm -v
+
+Insomnia REST API
+https://insomnia.rest
+
+yarn
+http://yarnpkg.com
+adicionar repositório com curl/apt-key
+sudo apt-get update && sudo apt-get install --no-install-recomends yarn
+yarn -v
+
+vsCode
+extensions:
+- Dracula Official
+-- Set Theme Dracula (not Soft)
+- Material Icon Theme
+- Rocketseat
+-- ReactJS
+-- React Native
+fonts:
+-- fira code
+-- preferences:
+--- ctrl+shift+p
+--- open settings json 
+--- "editor.fontFamily": "Fira Code"
+--- "editor.fontLigatures": true
+
+Semana 1/6 - Node.js
+Conceitos de API Rest
+	Método HTTP/Recurso ou Rota/Parâmetro
+GET	http://minhaapi.com/users
+POST	http://minhaapi.com/users
+PUT	http://minhaapi.com/users/1
+DELETE	http://minhaapi.com/users/1
+
+	Método HTTP/Recurso ou Rota/Route Params/Recurso ou Rota/Query Params
+GET	http://api.com/company/1/users?page=2
+
+	Método HTTP/Recurso ou Rota/Route Params/Recurso ou Rota/Query Params
+POST	http://api.com/company/1/users
+Request body/Body/Corpo da requisição (Apenas PUT ou POST)
+{
+	"user": {
+		"name": "fdfhdkfhd",
+		"email": "fdfa@ddd.com",
+		"tech": ["ReactJS", "NodeJS", "ReactNative"]
+	}
+}
+Headers
+{
+	"Locale": "pt_BR"
+}
+
+HTTP Codes
+1xx: Informational
+2xx: Success
+- 200: Success
+- 201: Created
+3xx: Redirection
+- 301: Moved permanently
+- 302: Moved
+4xx: Client Error
+- 400: Bad Request
+- 401: Unauthorized
+- 404: Not Found
+5xx: Server Error
+- 500: Internal Server Error
+
+../bootcamp
+mkdir modulo01 && cd modulo01
+yarn init -y
+ls
+package.json
+yarn add express
+
+To use ESLint please install eslint by running npm install eslint in the workspace folder modulo01
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+If you are using yarn or pnpm instead of npm set the setting `eslint.packageManager` to either `yarn` or `pnpm`
+Alternatively you can disable ESLint for the workspace folder modulo01 by executing the 'Disable ESLint' command.
+
+criar index.js e importar express
+const express = require('express');
+const server = express();
+server.get('/{rota}', (req, res) => {
+    return res.json({obejto formato JSON});
+});
+server.listen({porta});
+
+req.query.{parameter name} -> acessar query params para filtros (GET).Ex.: http://api.com/users?name=John
+req.params.{parameter name} -> acessar route params para edição e exclusão (PUT, DELETE).Ex.: http://api.com/users/2
+req.body.{parameter name} -> acessar corpo da requisição para edição e inclusão (PUT, POST).Ex.: http://api.com/users
+req.headers -> 
+
+// http://localhost:3000/teste?name=Gomes
+server.get('/teste', (req, res) => {
+    const name = req.query.name;
+
+    return res.json({ 'message': `Hello ${name}!` });
+});
+
+// http://localhost:3000/users/2
+server.get('/users/:id', (req, res) => {
+    const id = req.params.id;
+	OU
+	const { id } = req.params;
+
+    return res.json({ 'id': `${id}` });
+});
+server.listen(3000);
+
+Dia 2/5 - Construção do backend com Node.js e MongoDB
+node src/server.js
+yarn add nodemon -D
+yarn dev
+
+
+
+https://www.mongodb.com/cloud/atlas
+- create cloud;
+- create user in database access;
+- add ip address in network access with any ip address: 0.0.0.0/0;
+- copy connection string in clusters/connect/your application;
+
+yarn add mongoose
+
+# Verificar acesso à porta do mongo, se tem proxy
+MongoDB port: 27017
+http://portquiz.net:27017/
+
+/controllers
+    // index, show, store, update, destroy
+    model.findOne()
+    model.create()
+	/SessionController.js (Porque não UserController?)
+    /Spot.js
+/models
+    User.js
+    Spot.js
+        techs: [String]
+        user.type
+
+await e async !important
+post multipart (string, number, array, file)
+yarn add multer
+
+yarn add dotenv
+
+
+Dia 3/5 - Contrução do frontend Web Responsivo com ReactJS
+cd rocketseat/omnistack
+yarn create react-app frontend
+color highlight vscode extension
+
+gnome terminal backend: yarn dev
+vscode terminal frontend: yarn start
+
+yarn add axios
+#### yarn add dotenv
+backend: yarn add cors
+
+await booking.populate('user').populate('spot').execPopulate();
+
+import React, { useState } from 'react';
+localStorage.setItem('user', _id);
+
+yarn add react-router-dom
+
+model virtual column
+
+
+dia 4/5 - Contrução do frontend Mobile com React Native
+Instalar o App Expo
+instalar o expo-cli: npm install -g expo-cli
+cd rocketseat/omnistack
+expo init mobile
+- template: blank;
+- App Name: AirCnC;
+- Yarn: Yes
+cd mobile
+yarn start
+
+Emuladores:
+iOS: xcode (só funciona no OS da Apple)
+Android: genymotion for fun
+- Android API: >=9.0
+- Available templates: Google Pixel 3
+
+Logar no App Expo
+Acessar URL exposta: exp://192.168.0.50:19000
+Focar o QR Code
+
+cd mobile && code .
+yarn add react-navigation
+expo install react-native-gesture-handler react-native-reanimated
+yarn add axios
+MongoDB Compass
+
+yarn add react-native-dotenv --dev
+https://www.reactnativeschool.com/easily-manage-different-environment-configurations-in-react-native
+
+
+dia 5/5 - Funcionalidades avançadas
+backend: yarn add socket.io
+frontend: yarn add socket.io-client
+mobile: yarn add socket.io-client
+
+#omnistacknextlevel
+
+######### Javascript #########
+document.querySelector()
+document.querySelectorAll()
+document.createElement()
+document.setAttribute()
+document.createTextNode()
+element1.appendChild(element2)
+element1.removeChild(element2)
+element.style.attribute = value
+for (element of array)
+array.push(value)
+array.splice(position, count)
+array.indexOf()
+
+localStorage.setItem(id, value)
+localStorage.getItem(id)
+JSON.stringify(array)
+JSON.parse(JSON text)
+
+var id = value || default

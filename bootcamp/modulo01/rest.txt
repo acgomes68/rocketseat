@@ -1,0 +1,23 @@
+http://localhost:3000/users/
+
+http://localhost:3000/users/1
+
+http://localhost:3000/teste?name=Gomes
+
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+{
+    "name": "Antonio Gomes",
+    "email": "antonio.gomes@email.com",
+    "tech": ["ReactJS", "NodeJS", "React Native"],
+}
+
+PUT http://localhost:3000/users/1 HTTP/1.1
+content-type: application/json
+{
+    "name": "Antonio Gomes",
+    "email": "antonio.gomes@email.com",
+    "tech": ["ReactJS", "NodeJS", "React Native"],
+}
+
+DELETE http://localhost:3000/users/1 HTTP/1.1
