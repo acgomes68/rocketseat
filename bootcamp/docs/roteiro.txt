@@ -94,6 +94,8 @@ server.get('/{rota}', (req, res) => {
 });
 server.listen({porta});
 
+node index.js
+
 req.query.{parameter name} -> acessar query params para filtros (GET).Ex.: http://api.com/users?name=John
 req.params.{parameter name} -> acessar route params para edição e exclusão (PUT, DELETE).Ex.: http://api.com/users/2
 req.body.{parameter name} -> acessar corpo da requisição para edição e inclusão (PUT, POST).Ex.: http://api.com/users
@@ -114,12 +116,27 @@ server.get('/users/:id', (req, res) => {
 
     return res.json({ 'id': `${id}` });
 });
+
+const users = ['Antonio', 'Diego', 'Eduardo'];
+
+// http://localhost:3000/users/2
+server.get('/users/:index', (req, res) => {
+    const { index } = req.params;
+
+    return res.json(users[index]);
+});
+
 server.listen(3000);
 
-Dia 2/5 - Construção do backend com Node.js e MongoDB
-node src/server.js
+# Instalar o nodemon localmente somente para o ambiende de desenvolvimento
 yarn add nodemon -D
+
+# Adicionar o atalho no package.json
+"scripts": {
+"dev": "nodemon index.js"
+},
 yarn dev
+
 
 
 

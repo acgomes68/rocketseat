@@ -14,17 +14,25 @@ server.get('/teste', (req, res) => {
 });
 
 // http://localhost:3000/users/2
-server.get('/users/:id', (req, res) => {
-    const { id } = req.params;
+// server.get('/users/:id', (req, res) => {
+//     const { id } = req.params;
 
-    return res.json({
-            "id": `${id}`,
-            "name": "Antonio Gomes",
-            "email": "antonio.gomes@email.com",
-            "tech": ["ReactJS", "NodeJS", "React Native"],
-    });
+//     return res.json({
+//             "id": `${id}`,
+//             "name": "Antonio Gomes",
+//             "email": "antonio.gomes@email.com",
+//             "tech": ["ReactJS", "NodeJS", "React Native"],
+//     });
+// });
+
+const users = ['Antonio', 'Jorge', 'Eduardo'];
+
+// http://localhost:3000/users/2
+server.get('/users/:index', (req, res) => {
+    const { index } = req.params;
+
+    return res.json(users[index]);
 });
-
 
 // http://localhost:3000/
 server.listen(3000);
