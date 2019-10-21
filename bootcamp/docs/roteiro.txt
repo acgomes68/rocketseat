@@ -115,29 +115,57 @@ req.params.{parameter name} -> acessar route params para edição e exclusão (P
 req.body.{parameter name} -> acessar corpo da requisição para edição e inclusão (PUT, POST).Ex.: http://api.com/users
 req.headers -> 
 
-// http://localhost:3000/teste?name=Gomes
-server.get('/teste', (req, res) => {
-    const name = req.query.name;
+//  C               R           U           D
+//  Create (POST)   Read(GET)   Update(PUT) Delete
 
-    return res.json({ 'message': `Hello ${name}!` });
+const users = ['Antonio', 'Jorge', 'Eduardo'];
+
+// http://localhost:3000/users
+server.get('/users', (req, res) => {
+    return res.json(users);
 });
 
-// http://localhost:3000/users/2
-server.get('/users/:id', (req, res) => {
-    const id = req.params.id;
-	OU
-	const { id } = req.params;
-
-    return res.json({ 'id': `${id}` });
-});
-
-const users = ['Antonio', 'Diego', 'Eduardo'];
-
-// http://localhost:3000/users/2
+// http://localhost:3000/users/1
 server.get('/users/:index', (req, res) => {
     const { index } = req.params;
 
     return res.json(users[index]);
+});
+
+// POST http://localhost:3000/users HTTP/1.1
+// content-type: application/json
+// {
+//     "name": "Robson",
+// }
+server.post('/users', (req, res) => {
+    const { name } = req.body;
+
+    users.push(name);
+
+    return res.json(users);
+});
+
+// PUT http://localhost:3000/users/1 HTTP/1.1
+// content-type: application/json
+// {
+//     "name": "Luís",
+// }
+server.put('/users/:index', (req, res) => {
+    const { index } = req.params;
+    const { name } = req.body;
+
+    users[index] = name;
+
+    return res.json(users);
+});
+
+// DELETE http://localhost:3000/users/1 HTTP/1.1
+server.delete('/users/:index', (req, res) => {
+    const { index } = req.params;
+
+    users.splice(index, 1);
+
+    return res.json(users);
 });
 
 server.listen(3000);

@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "prd": "node index.js",
+    "stop": "killall node"
   },
   "dependencies": {
     "express": "^4.17.1"

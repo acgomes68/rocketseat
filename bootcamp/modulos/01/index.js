@@ -11,26 +11,36 @@ server.use(express.json());
 //  C               R           U           D
 //  Create (POST)   Read(GET)   Update(PUT) Delete
 
-// http://localhost:3000/teste?name=Gomes
-server.get('/teste', (req, res) => {
-    const name = req.query.name;
+const users = ['Antonio', 'Jorge', 'Eduardo'];
 
-    return res.json({ 'message': `Hello ${name}!` });
+server.use((req, res, next) => {
+    console.time('Request');
+
+    console.log(`Método: ${req.method}; URL: ${req.url}`);
+    next();
+
+    console.timeEnd('Request');
 });
 
-// http://localhost:3000/users/2
-// server.get('/users/:id', (req, res) => {
-//     const { id } = req.params;
+checkUserNameExists = function(req, res, next) {
+    if (!req.body.name) {
+        return res.status(400).json({ error: 'User name is required' });
+    }
 
-//     return res.json({
-//             "id": `${id}`,
-//             "name": "Antonio Gomes",
-//             "email": "antonio.gomes@email.com",
-//             "tech": ["ReactJS", "NodeJS", "React Native"],
-//     });
-// });
+    return next();
+};
 
-const users = ['Antonio', 'Jorge', 'Eduardo'];
+checkUserIdExists = function(req, res, next) {
+    const user = users[req.params.index];
+
+    if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+    }
+
+    req.user = user;
+
+    return next();
+};
 
 // http://localhost:3000/users
 server.get('/users', (req, res) => {
@@ -38,10 +48,8 @@ server.get('/users', (req, res) => {
 });
 
 // http://localhost:3000/users/1
-server.get('/users/:index', (req, res) => {
-    const { index } = req.params;
-
-    return res.json(users[index]);
+server.get('/users/:index', checkUserIdExists, (req, res) => {
+    return res.json(req.user);
 });
 
 // POST http://localhost:3000/users HTTP/1.1
@@ -49,7 +57,7 @@ server.get('/users/:index', (req, res) => {
 // {
 //     "name": "Robson",
 // }
-server.post('/users', (req, res) => {
+server.post('/users', checkUserNameExists, (req, res) => {
     const { name } = req.body;
 
     users.push(name);
@@ -62,7 +70,7 @@ server.post('/users', (req, res) => {
 // {
 //     "name": "Luís",
 // }
-server.put('/users/:index', (req, res) => {
+server.put('/users/:index', checkUserIdExists, checkUserNameExists, (req, res) => {
     const { index } = req.params;
     const { name } = req.body;
 
@@ -72,10 +80,10 @@ server.put('/users/:index', (req, res) => {
 });
 
 // DELETE http://localhost:3000/users/1 HTTP/1.1
-server.delete('/users/:index', (req, res) => {
+server.delete('/users/:index', checkUserIdExists, (req, res) => {
     const { index } = req.params;
 
-    users.splice(index);
+    users.splice(index, 1);
 
     return res.json(users);
 });
