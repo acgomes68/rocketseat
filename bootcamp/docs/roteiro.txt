@@ -37,10 +37,10 @@ fonts:
 
 Semana 1/6 - Node.js
 Conceitos de API Rest
-	Método HTTP/Recurso ou Rota/Parâmetro
-GET	http://minhaapi.com/users
+Método HTTP/Recurso ou Rota/Parâmetro
+GET	    http://minhaapi.com/users
 POST	http://minhaapi.com/users
-PUT	http://minhaapi.com/users/1
+PUT	    http://minhaapi.com/users/1
 DELETE	http://minhaapi.com/users/1
 
 	Método HTTP/Recurso ou Rota/Route Params/Recurso ou Rota/Query Params
@@ -88,14 +88,26 @@ or globally using 'npm install -g eslint'. You need to reopen the workspace afte
 If you are using yarn or pnpm instead of npm set the setting `eslint.packageManager` to either `yarn` or `pnpm`
 Alternatively you can disable ESLint for the workspace folder modulo01 by executing the 'Disable ESLint' command.
 
-criar index.js e importar express
+# criar index.js
+
+# Importar express
 const express = require('express');
+
+# Criar uma instância do express
 const server = express();
+
+# Determinar que a instância usará o formato JSON do express
+server.use(express.json());
+
+# Criar as rotas
 server.get('/{rota}', (req, res) => {
     return res.json({obejto formato JSON});
 });
+
+# Definir em qual porta a instância do express executará os métodos HTTP
 server.listen({porta});
 
+# Iniciar o servidor HTTP da instância do express
 node index.js
 
 req.query.{parameter name} -> acessar query params para filtros (GET).Ex.: http://api.com/users?name=John
