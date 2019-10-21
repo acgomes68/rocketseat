@@ -60,22 +60,6 @@ getValueByKey = (object, value) => {
             object[index].id == value);
 };
 
-checkProjectTitleExists = (req, res, next) => {
-    if (!req.body.title) {
-        return res.status(400).json({ error: 'Project title is required' });
-    }
-
-    return next();
-};
-
-checkProjectTaskTitleExists = (req, res, next) => {
-    if (!req.body.title) {
-        return res.status(400).json({ error: 'Project task title is required' });
-    }
-
-    return next();
-};
-
 checkProjectIdExists = (req, res, next) => {
     const project_id = req.params.id;
     const index = getValueByKey(projects, project_id);
@@ -89,12 +73,31 @@ checkProjectIdExists = (req, res, next) => {
     return next();
 };
 
-checkProjectIdNotExists = function(req, res, next) {
+checkProjectIdNotExists = (req, res, next) => {
     const project_id = req.body.id;
     const index = getValueByKey(projects, project_id);
 
-    if (index != undefined) {
+    if (!project_id) {
+        return res.status(400).json({ error: 'Project id is required' });
+    }
+    else if (index != undefined) {
         return res.status(400).json({ error: 'Project already exists' });
+    }
+
+    return next();
+};
+
+checkProjectTitleExists = (req, res, next) => {
+    if (!req.body.title) {
+        return res.status(400).json({ error: 'Project title is required' });
+    }
+
+    return next();
+};
+
+checkProjectTaskTitleExists = (req, res, next) => {
+    if (!req.body.title) {
+        return res.status(400).json({ error: 'Project task title is required' });
     }
 
     return next();
