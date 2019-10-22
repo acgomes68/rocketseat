@@ -312,6 +312,8 @@ yarn sequelize db:undo:all (todas)
 # Extensão para geração do hash da senha
 yarn add bcryptjs
 
+# Instalação do JWT
+yarn add jsonwebtoken
 
 https://www.mongodb.com/cloud/atlas
 - create cloud;
