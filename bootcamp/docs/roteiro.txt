@@ -315,6 +315,9 @@ yarn add bcryptjs
 # Instalação do JWT
 yarn add jsonwebtoken
 
+# Gerador de hashes
+https://www.md5online.org/
+
 https://www.mongodb.com/cloud/atlas
 - create cloud;
 - create user in database access;
