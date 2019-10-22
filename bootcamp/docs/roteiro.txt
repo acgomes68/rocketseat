@@ -280,6 +280,12 @@ yarn add sequelize-cli -D
 # .sequelizerc
 - Configurar os paths dos arquivos referentes aos models e configurações de database
 
+# Instalar dependências do Postgres para o Sequelize
+yarn add pg pg-hstore
+
+# config/database.js
+
+
 
 https://www.mongodb.com/cloud/atlas
 - create cloud;
