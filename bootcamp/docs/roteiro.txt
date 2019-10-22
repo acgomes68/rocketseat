@@ -182,6 +182,26 @@ yarn dev
 
 ###################################################################################################
 
+Semana 2/6 - Node.js
+yarn add sucrase nodemon -D
+
+# routes
+import { Router } from 'express';
+export default routes;
+
+# app
+import express from 'express';
+import routes from './routes';
+export default new App().server;
+
+# server
+import app from './app';
+
+yarn sucrase-node src/server.js
+
+
+
+
 https://www.mongodb.com/cloud/atlas
 - create cloud;
 - create user in database access;
