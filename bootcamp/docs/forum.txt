@@ -32,3 +32,7 @@ yarn add react-native-dotenv --dev
 
 Docker
 - Container somente para o postgres? Pode criar container para o Node.js?
+
+Sequelize
+- Possui a opção de soft-delete?
+- Hooks seriam como triggers?

@@ -1,25 +1,13 @@
 import { Router } from 'express';
 
+import UserController from './app/controllers/UserController';
+
 const routes = new Router();
 
-routes.get('/', (req, res) => {
-  return res.json({ hello: 'World' });
-});
-
-routes.get('/:id', (req, res) => {
-  return res.json({ hello: 'World' });
-});
-
-routes.post('/', (req, res) => {
-  return res.json({ hello: 'World' });
-});
-
-routes.put('/:id', (req, res) => {
-  return res.json({ hello: 'World' });
-});
-
-routes.delete('/:id', (req, res) => {
-  return res.json({ hello: 'World' });
-});
+routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
+routes.post('/users', UserController.store);
+routes.put('/users/:id', UserController.update);
+routes.delete('/users/:id', UserController.delete);
 
 export default routes;

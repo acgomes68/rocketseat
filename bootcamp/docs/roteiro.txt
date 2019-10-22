@@ -285,7 +285,32 @@ yarn add sequelize-cli -D
 yarn add pg pg-hstore
 
 # config/database.js
+module.exports = {
+  dialect: 'postgres',
+  host: 'localhost',
+  username: 'postgres',
+  password: 'docker',
+  database: 'gobarber',
+  define: {
+    timestamps: true,
+    underscored: true,
+    underscoredAll: true,
+  },
+};
 
+# geração da migration da tabela users
+yarn sequelize migration:create --name=create-users
+atualiza o arquivo src/database/migrations/999999-create-users.js com a estrutura da tabela users
+
+# Executa as migrations disponíveis
+yarn sequelize db:migrate
+
+# Desfaz a execução das migrations (down ou rollback)
+yarn sequelize db:undo (somente a última)
+yarn sequelize db:undo:all (todas)
+
+# Extensão para geração do hash da senha
+yarn add bcryptjs
 
 
 https://www.mongodb.com/cloud/atlas
