@@ -35,7 +35,7 @@ fonts:
 
 ###################################################################################################
 
-Semana 1/6 - Node.js
+Semana 1/6 - Módulo 1 - Node.js
 Conceitos de API Rest
 Método HTTP/Recurso ou Rota/Parâmetro
 GET	    http://minhaapi.com/users
@@ -182,7 +182,7 @@ yarn dev
 
 ###################################################################################################
 
-Semana 2/6 - Node.js
+Semana 1/6 - Módulo 2 - backend GoBarber
 yarn add sucrase nodemon -D
 
 # routes
@@ -198,8 +198,87 @@ export default new App().server;
 import app from './app';
 
 yarn sucrase-node src/server.js
+criação do script dev:debug no package.json
+criação do nodemon.json
+criação da configuração do debugger do vscode
 
+utilização do docker
+# logar no docker hub
+docker login
 
+# Instalação da imagem do postgres
+docker run --name database -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres:11
+
+Postbird - Postgres GUI
+https://electronjs.org/apps/postbird
+
+# Criar database gobarber
+
+# Sequelize ORM SQL Databases para Node
+- Migrations passadas para outros DEV's ou em produção NÃO PODEM MAIS SER ALTERADAS;
+- Uma migration para cada tabela;
+- Seeds para preenchimento de dados de teste, somente em ambiente DEV;
+- Seeds executados somente através do código, nunca diretamente na base de dados;
+
+# ESLint
+yarn add eslint -D
+yarn eslint --init
+- To check syntax, find problems and enforce code style
+- CommonJS (require/exports)
+- None of these
+- Typescript: No
+- (only)Node
+- Use a popular style guide
+- AirBnB
+- Javascript
+- (Dependencies) Yes
+- Apagar package-lock.json gerado pelo npm;
+- yarn
+Instalar extensão ESLint (Dirk Baeumer)
+vscode settings.json (Ctrl+,(vírgula))
+eslint.autoFixOnSave: true
+eslint.validate
+# .eslintrc.js
+rules
+- "class-methods-use-this": "off"
+- "no-param-reassign": "off"
+- "camelcase": "off"
+- "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+- "prettier/prettier": "error"
+
+# Prettier
+yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+# .eslintrc.js
+extends: ['airbnb-base', 'prettier']
+plugins: ['prettier']
+
+# .prettierrc
+{
+    "singleQuote": true,
+    "trailingComma": "es5"
+}
+
+yarn eslint --fix src --ext .js
+
+# EditorConfig
+Instalar extensão EditorConfig for VS Code (Dirk Baeumer)
+Generate .editorconfig
+- indent_size = 2 (Prefiro 4)
+- trim_trailing_whitespace = true
+- insert_final_newline = true
+
+# Configurando Sequelize
+- estrutura de pastas
+-- criar src/config/database.js
+-- criar src/database/migrations
+-- criar src/app/controllers
+-- criar src/app/models
+
+yarn add sequelize
+yarn add sequelize-cli -D
+
+# .sequelizerc
+- Configurar os paths dos arquivos referentes aos models e configurações de database
 
 
 https://www.mongodb.com/cloud/atlas
@@ -316,3 +395,4 @@ JSON.stringify(array)
 JSON.parse(JSON text)
 
 var id = value || default
+

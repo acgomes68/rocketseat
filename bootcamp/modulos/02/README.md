@@ -1,4 +1,4 @@
 # rocketseat
 # gostack
 # modulos
-Conteúdo do módulo-02 que diz respeito a construção da aplicação backend em Node.js chamada de GoBarber
+Conteúdo do módulo-02 que diz respeito a construção do backend da aplicação GoBarber em Node.js com Express.js na arquitetura MVC.
