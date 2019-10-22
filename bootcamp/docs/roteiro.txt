@@ -309,6 +309,10 @@ yarn sequelize db:migrate
 yarn sequelize db:undo (somente a última)
 yarn sequelize db:undo:all (todas)
 
+# Gerar Seeds
+yarn sequelize seed:generate --name admin-user
+yarn sequelize db:seed:all
+
 # Extensão para geração do hash da senha
 yarn add bcryptjs
 
@@ -317,6 +321,11 @@ yarn add jsonwebtoken
 
 # Gerador de hashes
 https://www.md5online.org/
+
+# Validação dos dados de entrada
+yarn add yup
+
+
 
 https://www.mongodb.com/cloud/atlas
 - create cloud;
