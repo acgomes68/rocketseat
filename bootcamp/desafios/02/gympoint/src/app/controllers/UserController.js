@@ -35,7 +35,12 @@ class UserController {
 
     const { id, name, email, provider } = await User.create(req.body);
 
-    return res.json({ id, name, email, provider });
+    return res.json({
+      id,
+      name,
+      email,
+      provider,
+    });
   }
 
   async update(req, res) {
@@ -49,7 +54,7 @@ class UserController {
           oldPassword ? field.required() : field
         ),
       confirmPassword: Yup.string().when('password', (password, field) =>
-        password ? field.required().oneOf([yup.ref(password)]) : field
+        password ? field.required().oneOf([Yup.ref(password)]) : field
       ),
     });
 
