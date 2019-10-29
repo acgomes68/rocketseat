@@ -322,6 +322,15 @@ yarn add yup
 
 
 
+###################################################################################################
+
+Semana 1/6 - Módulo 3 - continuação do backend GoBarber
+
+# Formulários multipart e upload de arquivos
+yarn add multer
+
+
+
 https://www.mongodb.com/cloud/atlas
 - create cloud;
 - create user in database access;
