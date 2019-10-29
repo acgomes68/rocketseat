@@ -88,7 +88,8 @@ class UserController {
   }
 
   async delete(req, res) {
-    const user = await User.destroy(req.userId);
+    const { id } = req.params;
+    const user = await User.destroy(id);
     return res.json(user);
   }
 }
