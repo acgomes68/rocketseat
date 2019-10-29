@@ -19,6 +19,6 @@ Estrutura de diretórios:
   - database
     - migrations
     - seeds
-  app.js
-  routes.js
-  server.js
+ - app.js
+ - routes.js
+ - server.js
