@@ -10,14 +10,15 @@ Complementando foram utilizados os seguintes plugins e componentes:
 - yup: validação e consistência dos dados de entrada;
 
 Estrutura de diretórios:
-src
--- app
---- controllers
---- middlewares
---- models
--- config
--- database
---- migrations
+# src
+##  app
+### controllers
+### middlewares
+### models
+## config
+## database
+### migrations
+### seeds
 app.js
 routes.js
 server.js
