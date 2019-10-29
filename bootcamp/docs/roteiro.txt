@@ -329,6 +329,8 @@ Semana 1/6 - Módulo 3 - continuação do backend GoBarber
 # Formulários multipart e upload de arquivos
 yarn add multer
 
+# Criar tabela para os nomes dos arquivos de upload
+yarn sequelize migration:create --name=create-files
 
 
 https://www.mongodb.com/cloud/atlas
