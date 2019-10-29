@@ -83,11 +83,6 @@ ls
 package.json
 yarn add express
 
-To use ESLint please install eslint by running npm install eslint in the workspace folder modulo01
-or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
-If you are using yarn or pnpm instead of npm set the setting `eslint.packageManager` to either `yarn` or `pnpm`
-Alternatively you can disable ESLint for the workspace folder modulo01 by executing the 'Disable ESLint' command.
-
 # criar index.js
 
 # Importar express
