@@ -3,14 +3,24 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const students = await Student.findAll();
-    return res.json(students);
+    try{
+      const students = await Student.findAll();
+      return res.json(students);
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const student = await Student.findByPk(id);
-    return res.json(student);
+    try{
+      const student = await Student.findByPk(id);
+      return res.json(student);
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async store(req, res) {
@@ -28,26 +38,31 @@ class StudentController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    // const studentExists = await Student.findOne({
-    //   where: { email: req.body.email },
-    // });
+    try {
+      const studentExists = await Student.findOne({
+        where: { email: req.body.email },
+      });
 
-    // if (studentExists) {
-    //   return res.status(400).json({ error: 'Student already exists' });
-    // }
+      if (studentExists) {
+        return res.status(400).json({ error: 'Student already exists' });
+      }
 
-    const { id, name, email, age, weight, height } = await Student.create(
-      req.body
-    );
+      const { id, name, email, age, weight, height } = await Student.create(
+        req.body
+      );
 
-    return res.json({
-      id,
-      name,
-      email,
-      age,
-      weight,
-      height,
-    });
+      return res.json({
+        id,
+        name,
+        email,
+        age,
+        weight,
+        height,
+      });
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async update(req, res) {
@@ -65,32 +80,43 @@ class StudentController {
     }
 
     const { email } = req.body;
-    const student = await Student.findByPk(id);
 
-    if (email !== student.email) {
-      const studentExists = await Student.findOne({ where: { email } });
+    try{
+      const student = await Student.findByPk(id);
 
-      if (studentExists) {
-        return res.status(400).json({ error: 'Student already exists' });
+      if (email !== student.email) {
+        const studentExists = await Student.findOne({ where: { email } });
+
+        if (studentExists) {
+          return res.status(400).json({ error: 'Student already exists' });
+        }
       }
+
+      const { name, age, weight, height } = await student.update(req.body);
+
+      return res.json({
+        id,
+        name,
+        email,
+        age,
+        weight,
+        height,
+      });
     }
-
-    const { name, age, weight, height } = await student.update(req.body);
-
-    return res.json({
-      id,
-      name,
-      email,
-      age,
-      weight,
-      height,
-    });
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const student = await Student.destroy(id);
-    return res.json(student);
+    try{
+      const student = await Student.destroy({ where: { id } });
+      return res.json(student);
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 }
 
