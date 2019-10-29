@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import Student from '../models/Student';
 
 class UserController {
   async index(req, res) {
@@ -45,13 +46,23 @@ class UserController {
         return res.status(400).json({ error: 'User already exists' });
       }
 
-      const { id, name, email, provider } = await User.create(req.body);
+      // Se o e-mail do usuário for de um aluno, cadastra com senha vazia paa evitar
+      // que o mesmo possa se autenticar
+      const isStudent = await Student.findOne({ where: { email: req.body.email } });
+      if (isStudent) {
+        req.body.isStudent = true;
+        req.body.password = '';
+      }
+      else {
+        req.body.isStudent = false;
+      }
+
+      const { id, name, email } = await User.create(req.body);
 
       return res.json({
         id,
         name,
         email,
-        provider,
       });
     }
     catch(error) {
@@ -95,13 +106,23 @@ class UserController {
         return res.status(401).json({ error: 'Invalid password' });
       }
 
-      const { id, name, provider } = await user.update(req.body);
+      // Se o e-mail do usuário for de um aluno, cadastra com senha vazia paa evitar
+      // que o mesmo possa se autenticar
+      const isStudent = await Student.findOne({ where: { email } });
+      if (isStudent) {
+        req.body.isStudent = true;
+        req.body.password = '';
+      }
+      else {
+        req.body.isStudent = false;
+      }
+
+      const { id, name } = await user.update(req.body);
 
       return res.json({
         id,
         name,
         email,
-        provider,
       });
     }
     catch(error) {
