@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  frontend:
+    build: .
+    image: acgomes68/alpine-node-react:latest
+    container_name: omnistack-${REACT_APP_NAME}
+    command: npm start
+    ports:
+    - ${REACT_APP_PORT}:3000
+    volumes:
+    - .:/usr/app
+    restart: always
