@@ -39,4 +39,4 @@ app.use(express.json());
 app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads')));
 app.use(routes);
 
-server.listen(config.API_PORT);
+server.listen(config.APP_PORT, config.APP_HOST);

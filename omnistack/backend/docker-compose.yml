@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  backend:
+    build: .
+    image: acgomes68/alpine-node:latest
+    container_name: node-${APP_NAME}
+    command: npm start
+    ports:
+    - ${APP_PORT}:3333
+    volumes:
+    - .:/usr/app
+    restart: always

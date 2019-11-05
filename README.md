@@ -1,2 +1,2 @@
 # rocketseat
-Cursos e treinamentos realizados na Rocketseat
+Cursos e treinamentos realizados pela Rocketseat
