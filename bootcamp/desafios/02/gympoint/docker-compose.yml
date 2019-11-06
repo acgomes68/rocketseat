@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  desafio-01:
+  desafio-02:
     build: .
     image: acgomes68/alpine-node:latest
     container_name: bootcamp-${APP_NAME}
@@ -10,3 +10,13 @@ services:
     - ${APP_PORT}:3000
     volumes:
     - .:/usr/app
+  postgres:
+    image: postgres:11
+    container_name: database-${APP_NAME}
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER},
+      POSTGRES_PASSWORD: ${DB_PASSWD},
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+    - ${DB_PORT}:5432
