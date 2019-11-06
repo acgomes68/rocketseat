@@ -1,12 +1,12 @@
 version: "3"
 
 services:
-  backend:
+  desafio-01:
     build: .
     image: acgomes68/alpine-node:latest
-    container_name: omnistack-${APP_NAME}
+    container_name: bootcamp-${APP_NAME}
     command: npm start
     ports:
-    - ${APP_PORT}:3333
+    - ${APP_PORT}:3000
     volumes:
     - .:/usr/app

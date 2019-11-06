@@ -101,12 +101,24 @@ model virtual column
 dia 4/5 - Contrução do frontend Mobile com React Native
 Instalar o App Expo
 instalar o expo-cli: npm install -g expo-cli
+
 cd rocketseat/omnistack
 expo init mobile
 - template: blank;
 - App Name: AirCnC;
 - Yarn: Yes
+OU
+expo init mobile --template blank --name AirCnC --yarn
+expo init mobile --template blank --name AirCnC --npm
+E...
 cd mobile
+
+OU
+cd rocketseat/omnistack/mobile
+expo init .
+expo init . --template blank --name AirCnC --yarn
+expo init . --template blank --name AirCnC --npm
+
 yarn start
 
 Emuladores:
@@ -116,7 +128,7 @@ Android: genymotion for fun
 - Available templates: Google Pixel 3
 
 Logar no App Expo
-Acessar URL exposta: exp://192.168.0.50:19000
+Acessar URL exposta: exp://192.168.0.52:19000
 Focar o QR Code
 
 cd mobile && code .

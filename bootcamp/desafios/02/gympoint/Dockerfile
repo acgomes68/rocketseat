@@ -25,7 +25,7 @@ RUN npm install
 COPY . .
 
 # Expose container port 3333
-EXPOSE 3333
+EXPOSE 3000
 
 # Run npm start command (scripts>start in package.json)
 CMD ["npm", "start"]

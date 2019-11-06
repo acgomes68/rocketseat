@@ -1,12 +1,12 @@
 version: "3"
 
 services:
-  backend:
+  mobile:
     build: .
-    image: acgomes68/alpine-node:latest
+    image: acgomes68/alpine-node-expo-react-native:latest
     container_name: omnistack-${APP_NAME}
     command: npm start
     ports:
-    - ${APP_PORT}:3333
+    - ${APP_PORT}:19000
     volumes:
     - .:/usr/app

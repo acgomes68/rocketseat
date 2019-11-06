@@ -10,4 +10,3 @@ services:
     - ${REACT_APP_PORT}:3000
     volumes:
     - .:/usr/app
-    restart: always
