@@ -1,3 +1,5 @@
 import app from './app';
 
-app.listen(3333);
+const config = require('./config/environment');
+
+app.listen(config.APP_PORT, config.APP_HOST);
