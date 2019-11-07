@@ -65,7 +65,7 @@ class RegistratonController {
       start_date,
       end_date,
       price,
-    } = await registraton.update(req.body);
+    } = await Registraton.update(req.body);
 
     return res.json({
       id,
