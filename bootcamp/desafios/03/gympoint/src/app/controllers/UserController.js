@@ -1,16 +1,27 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import Student from '../models/Student';
 
 class UserController {
   async index(req, res) {
-    const users = await User.findAll();
-    return res.json(users);
+    try{
+      const users = await User.findAll();
+      return res.json(users);
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const user = await User.findByPk(id);
-    return res.json(user);
+    try{
+      const user = await User.findByPk(id);
+      return res.json(user);
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async store(req, res) {
@@ -27,20 +38,36 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-    const userExists = await User.findOne({ where: { email: req.body.email } });
 
-    if (userExists) {
-      return res.status(400).json({ error: 'User already exists' });
+    try{
+      const userExists = await User.findOne({ where: { email: req.body.email } });
+
+      if (userExists) {
+        return res.status(400).json({ error: 'User already exists' });
+      }
+
+      // Se o e-mail do usuário for de um aluno, cadastra com senha vazia paa evitar
+      // que o mesmo possa se autenticar
+      const isStudent = await Student.findOne({ where: { email: req.body.email } });
+      if (isStudent) {
+        req.body.isStudent = true;
+        req.body.password = '';
+      }
+      else {
+        req.body.isStudent = false;
+      }
+
+      const { id, name, email } = await User.create(req.body);
+
+      return res.json({
+        id,
+        name,
+        email,
+      });
     }
-
-    const { id, name, email, provider } = await User.create(req.body);
-
-    return res.json({
-      id,
-      name,
-      email,
-      provider,
-    });
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 
   async update(req, res) {
@@ -54,7 +81,7 @@ class UserController {
           oldPassword ? field.required() : field
         ),
       confirmPassword: Yup.string().when('password', (password, field) =>
-        password ? field.required().oneOf([Yup.ref(password)]) : field
+        password ? field.required().oneOf([Yup.ref('password')]) : field
       ),
     });
 
@@ -63,33 +90,55 @@ class UserController {
     }
 
     const { email, oldPassword } = req.body;
-    const user = await User.findByPk(req.userId);
 
-    if (email !== user.email) {
-      const userExists = await User.findOne({ where: { email } });
+    try{
+      const user = await User.findByPk(req.userId);
 
-      if (userExists) {
-        return res.status(400).json({ error: 'User already exists' });
+      if (email !== user.email) {
+        const userExists = await User.findOne({ where: { email } });
+
+        if (userExists) {
+          return res.status(400).json({ error: 'User already exists' });
+        }
       }
+
+      if (oldPassword && !(await user.checkPassword(oldPassword))) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+
+      // Se o e-mail do usuário for de um aluno, cadastra com senha vazia paa evitar
+      // que o mesmo possa se autenticar
+      const isStudent = await Student.findOne({ where: { email } });
+      if (isStudent) {
+        req.body.isStudent = true;
+        req.body.password = '';
+      }
+      else {
+        req.body.isStudent = false;
+      }
+
+      const { id, name } = await user.update(req.body);
+
+      return res.json({
+        id,
+        name,
+        email,
+      });
     }
-
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: 'Invalid password' });
+    catch(error) {
+      return res.status(502).json({ "error": error });
     }
-
-    const { id, name, provider } = await user.update(req.body);
-
-    return res.json({
-      id,
-      name,
-      email,
-      provider,
-    });
   }
 
   async delete(req, res) {
-    const user = await User.destroy(req.userId);
-    return res.json(user);
+    const { id } = req.params;
+    try{
+      const user = await User.destroy({ where: { id } });
+      return res.json(user);
+    }
+    catch(error) {
+      return res.status(502).json({ "error": error });
+    }
   }
 }
 

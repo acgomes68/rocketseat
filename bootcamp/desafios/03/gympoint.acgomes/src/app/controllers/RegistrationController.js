@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import Registraton from '../models/Registration';
+import Registraton from '../models/Registraton';
 
 class RegistratonController {
   async index(req, res) {
@@ -26,14 +26,9 @@ class RegistratonController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const {
-      id,
-      student_id,
-      plan_id,
-      start_date,
-      end_date,
-      price,
-    } = await Registraton.create(req.body);
+    const { id, student_id, plan_id, start_date, end_date, price } = await Registraton.create(
+      req.body
+    );
 
     return res.json({
       id,
@@ -59,13 +54,7 @@ class RegistratonController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const {
-      student_id,
-      plan_id,
-      start_date,
-      end_date,
-      price,
-    } = await registraton.update(req.body);
+    const { student_id, plan_id, start_date, end_date, price } = await registraton.update(req.body);
 
     return res.json({
       id,

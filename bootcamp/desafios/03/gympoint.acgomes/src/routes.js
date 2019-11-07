@@ -3,41 +3,25 @@ import { Router } from 'express';
 import UserController from './app/controllers/UserController';
 import StudentController from './app/controllers/StudentController';
 import SessionController from './app/controllers/SessionController';
-import CheckinController from './app/controllers/CheckinController';
-import HelpOrderController from './app/controllers/HelpOrderController';
-import PlanController from './app/controllers/PlanController';
-import RegistrationController from './app/controllers/RegistrationController';
 
 import authMiddlewware from './app/middlewares/auth';
 
 const routes = new Router();
 
-/*------------------------------------------------------------------*/
-
-// Public access routes (no required admin authentication)
-
-// Users
-routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.show);
-
-// Students
-routes.get('/students', StudentController.index);
-routes.get('/students/:id', StudentController.show);
+// Public access routes
 
 // Sessions
 routes.post('/sessions', SessionController.store);
 
-/*------------------------------------------------------------------*/
-
-// Restricted access routes (required admin authentication)
-routes.use(authMiddlewware);
-
 // Users
+routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
 routes.post('/users', UserController.store);
-routes.put('/users', UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 // Students
+routes.get('/students', StudentController.index);
+routes.get('/students/:id', StudentController.show);
 routes.post('/students', StudentController.store);
 routes.put('/students/:id', StudentController.update);
 routes.delete('/students/:id', StudentController.delete);
@@ -68,6 +52,10 @@ routes.delete('/registrations/:id', RegistrationController.delete);
 routes.get('/help-orders/noanswer', HelpOrderController.show);
 routes.post('/help-orders/:id/answer', HelpOrderController.store);
 
-/*------------------------------------------------------------------*/
+// Restricted access routes
+routes.use(authMiddlewware);
+
+// Users
+routes.put('/users', UserController.update);
 
 export default routes;
