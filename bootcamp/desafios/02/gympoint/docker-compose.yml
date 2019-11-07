@@ -10,13 +10,10 @@ services:
     - ${APP_PORT}:3000
     volumes:
     - .:/usr/app
-  postgres:
-    image: postgres:11
-    container_name: database-${APP_NAME}
-    restart: always
-    environment:
-      POSTGRES_USER: ${DB_USER},
-      POSTGRES_PASSWORD: ${DB_PASSWD},
-      POSTGRES_DB: ${DB_DATABASE}
-    ports:
-    - ${DB_PORT}:5432
+  # postgres:
+  #   image: postgres:11
+  #   container_name: database-${APP_NAME}
+  #   environment:
+  #     POSTGRES_PASSWORD: ${DB_PASSWD}
+  #   ports:
+  #   - ${DB_PORT}:5432
