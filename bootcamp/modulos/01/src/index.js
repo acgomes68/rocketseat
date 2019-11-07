@@ -1,5 +1,7 @@
 const express = require('express');
 
+const config = require('./config')
+
 const server = express();
 
 server.use(express.json());
@@ -89,4 +91,4 @@ server.delete('/users/:index', checkUserIdExists, (req, res) => {
 });
 
 // http://localhost:3000/
-server.listen(3000);
+server.listen(config.APP_PORT, config.APP_HOST);

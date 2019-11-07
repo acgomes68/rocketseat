@@ -307,6 +307,7 @@ yarn sequelize db:undo:all (todas)
 # Gerar Seeds
 yarn sequelize seed:generate --name admin-user
 yarn sequelize db:seed:all
+yarn sequelize db:seed --seed <seed name>
 
 # Extensão para geração do hash da senha
 yarn add bcryptjs
