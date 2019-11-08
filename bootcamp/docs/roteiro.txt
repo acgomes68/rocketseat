@@ -333,6 +333,22 @@ yarn add multer
 # Criar tabela para os nomes dos arquivos de upload
 yarn sequelize migration:create --name=create-files
 
+# Criar coluna que relaciona as tabelas files e users, usando o arquivo de imagem fruto do upload no avatar do usuário
+yarn sequelize migration:create --name=add-avatar-field-to-users
+
+# Criar tabela de agendamentos
+yarn sequelize migration:create --name=create-appointments
+
+# Instala biblioteca de tratamento de datas e horas
+yarn add date-fns@next
+
+
+
+
+
+
+
+
 
 https://www.mongodb.com/cloud/atlas
 - create cloud;
