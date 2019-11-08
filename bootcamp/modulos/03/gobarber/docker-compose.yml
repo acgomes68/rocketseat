@@ -4,7 +4,8 @@ services:
   modulo-03:
     build: .
     depends_on:
-      - postgres    
+      - postgres
+      - mongo
     image: acgomes68/alpine-node:latest
     container_name: bootcamp-${APP_NAME}
     command: npm start
@@ -15,8 +16,14 @@ services:
 
   postgres:
     image: postgres:11-alpine
-    container_name: postgres-${DB_DATABASE}
+    container_name: postgres-${POSTGRES_DATABASE}
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
     ports:
-    - ${DB_PORT}:5432
+    - ${POSTGRES_PORT}:5432
+
+  mongo:
+    image: mvertes/alpine-mongo:latest
+    container_name: mongo-${MONGO_DATABASE}
+    ports:
+    - ${MONGO_PORT}:27017
