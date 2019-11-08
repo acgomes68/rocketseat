@@ -350,7 +350,16 @@ mvertes/alpine-mongo:latest
 
 # Usar MongoDB Compass como GUI mongo-cli
 
+# Instalar biblioteca para envio de e-mails
+yarn add nodemailer
 
+# Serviços de envio de e-mail (SMTP Providers)
+Amazon SES
+Mailgun
+Sparkpost
+Mandril (Mailchimp)
+Mailtrap (DEV environment)
+https://mailtrap.io/
 
 
 
