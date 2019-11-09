@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon src/server.js",
     "dev": "nodemon src/server.js",
+    "queue": "nodemon src/queue.js",
     "dev:debug": "nodemon --inspect src/server.js",
     "prd": "node src/server.js",
     "stop": "killall node"
