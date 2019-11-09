@@ -374,6 +374,21 @@ kue
 # Usar container Docker para Redis
 redis:alpine
 
+# Ferramentas de monitoração de erros
+https://sentry.io/welcome/
+https://www.bugsnag.com/
+
+# Instalar biblioteca de monitoração de erros
+yarn add @sentry/node@5.7.1
+
+# Instalar biblioteca de correção do Express para tratamento de erros com sentry
+yarn add express-async-errors
+
+# Instalar biblioteca para tratativas de mensagens de erro
+yarn add youch	
+
+# Instalar biblioteca para importação de variáveis de ambiente
+yarn add dotenv
 
 
 https://www.mongodb.com/cloud/atlas
