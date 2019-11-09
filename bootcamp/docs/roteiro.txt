@@ -361,6 +361,15 @@ Mandril (Mailchimp)
 Mailtrap (DEV environment)
 https://mailtrap.io/
 
+# Templates HTML para e-mails e intergração com nodemailer
+https://handlebarsjs.com/
+yarn add express-handlebars nodemailer-express-handlebars
+
+# Instalar biblioteca para controle de filas
+yarn add bee-queue
+
+# Outra opção menos performática, porém, mais robusta
+kue
 
 
 https://www.mongodb.com/cloud/atlas

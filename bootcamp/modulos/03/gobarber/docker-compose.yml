@@ -27,3 +27,9 @@ services:
     container_name: mongo-${MONGO_DATABASE}
     ports:
     - ${MONGO_PORT}:27017
+
+  redis:
+    image: redis:alpine
+    container_name: redis-${REDIS_DATABASE}
+    ports:
+    - ${REDIS_PORT}:6379
