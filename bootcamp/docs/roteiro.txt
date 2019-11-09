@@ -371,6 +371,10 @@ yarn add bee-queue
 # Outra opção menos performática, porém, mais robusta
 kue
 
+# Usar container Docker para Redis
+redis:alpine
+
+
 
 https://www.mongodb.com/cloud/atlas
 - create cloud;
