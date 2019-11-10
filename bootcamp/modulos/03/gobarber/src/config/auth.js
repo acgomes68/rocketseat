@@ -1,4 +1,12 @@
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
+});
+
+const { AUTH_SECRET, AUTH_EXPIRESIN } = process.env;
+
 export default {
-  secret: '45a4eec83814722b4e667154bd9b176d',
-  expiresIn: '7d',
+  secret: AUTH_SECRET,
+  expiresIn: AUTH_EXPIRESIN,
 };

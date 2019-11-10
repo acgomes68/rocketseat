@@ -1,4 +1,6 @@
-require('dotenv').config({
+import dotenv from 'dotenv';
+
+dotenv.config({
   path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
 });
 
@@ -12,7 +14,7 @@ const {
   MONGO_DATABASE,
 } = process.env;
 
-module.exports = {
+export default {
   postgres: {
     dialect: 'postgres',
     host: POSTGRES_HOST,

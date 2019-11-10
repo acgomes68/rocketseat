@@ -1,3 +1,11 @@
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
+});
+
+const { SENTRY_DSN } = process.env;
+
 export default {
-  dsn: 'https://1000c3d3dedc416db4a5bf43d6cdfcb8@sentry.io/1814371',
+  dsn: SENTRY_DSN,
 };

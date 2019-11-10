@@ -2,4 +2,6 @@ import 'dotenv/config';
 
 import app from './app';
 
-app.listen(process.env.APP_PORT, process.env.APP_HOST);
+const { APP_HOST, APP_PORT } = process.env;
+
+app.listen(APP_PORT, APP_HOST);

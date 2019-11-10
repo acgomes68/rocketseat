@@ -1,10 +1,18 @@
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
+});
+
+const { MAIL_HOST, MAIL_PORT, MAIL_AUTH_USER, MAIL_AUTH_PASS } = process.env;
+
 export default {
-  host: 'smtp.mailtrap.io',
-  port: 2525,
+  host: MAIL_HOST,
+  port: MAIL_PORT,
   secure: false,
   auth: {
-    user: '87e636c9ca860f',
-    pass: '666b868ffe6b47',
+    user: MAIL_AUTH_USER,
+    pass: MAIL_AUTH_PASS,
   },
   default: {
     from: 'GoBarber Team <noreply@gobarber.com>',

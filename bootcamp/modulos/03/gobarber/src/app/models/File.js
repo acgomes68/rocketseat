@@ -3,6 +3,8 @@ import Sequelize, { Model } from 'sequelize';
 
 class File extends Model {
   static init(sequelize) {
+    const { APP_URL, APP_PORT } = process.env;
+
     super.init(
       {
         name: Sequelize.STRING,
@@ -10,7 +12,7 @@ class File extends Model {
         url: {
           type: Sequelize.VIRTUAL,
           get() {
-            return `${process.env.APP_URL}:${process.env.APP_PORT}/files/${this.path}`;
+            return `${APP_URL}:${APP_PORT}/files/${this.path}`;
           },
         },
       },
