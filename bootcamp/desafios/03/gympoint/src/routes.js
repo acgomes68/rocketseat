@@ -16,16 +16,18 @@ const routes = new Router();
 
 // Public access routes (no required admin authentication)
 
-// Users
-routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.show);
-
-// Students
-routes.get('/students', StudentController.index);
-routes.get('/students/:id', StudentController.show);
-
 // Sessions
 routes.post('/sessions', SessionController.store);
+
+// Students Checkins
+routes.get('/students/:id/checkins', CheckinController.show);
+routes.post('/students/:id/checkins', CheckinController.store);
+
+// Students Help Orders
+routes.get('/students/help-orders/no-answer', HelpOrderController.index);
+routes.get('/students/:id/help-orders', HelpOrderController.show);
+routes.post('/students/:id/help-orders', HelpOrderController.store);
+routes.put('/help-orders/:id/answer', HelpOrderController.update);
 
 /*------------------------------------------------------------------*/
 
@@ -33,22 +35,18 @@ routes.post('/sessions', SessionController.store);
 routes.use(authMiddlewware);
 
 // Users
+routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
 routes.post('/users', UserController.store);
 routes.put('/users', UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 // Students
+routes.get('/students', StudentController.index);
+routes.get('/students/:id', StudentController.show);
 routes.post('/students', StudentController.store);
 routes.put('/students/:id', StudentController.update);
 routes.delete('/students/:id', StudentController.delete);
-
-// Students Checkins
-routes.post('/students/:id/checkins', CheckinController.store);
-routes.get('/students/:id/checkins', CheckinController.show);
-
-// Students Help Orders
-routes.post('/students/:id/help-orders', HelpOrderController.store);
-routes.get('/students/:id/help-orders', HelpOrderController.show);
 
 // Plans
 routes.get('/plans', PlanController.index);

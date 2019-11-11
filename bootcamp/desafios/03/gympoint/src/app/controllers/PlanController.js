@@ -46,20 +46,40 @@ class PlanController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { title, duration, price } = await Plan.update(req.body);
+    const { title } = req.body;
 
-    return res.json({
-      id,
-      title,
-      duration,
-      price,
-    });
+    try {
+      const plan = await Plan.findByPk(id);
+
+      if (title !== plan.title) {
+        const planExists = await Plan.findOne({ where: { title } });
+
+        if (planExists) {
+          return res.status(400).json({ error: 'Plan already exists' });
+        }
+      }
+
+      const { duration, price } = await plan.update(req.body);
+
+      return res.json({
+        id,
+        title,
+        duration,
+        price,
+      });
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const plan = await Plan.destroy(id);
-    return res.json(plan);
+    try {
+      const plan = await Plan.destroy({ where: { id } });
+      return res.json(plan);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 }
 

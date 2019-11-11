@@ -59,28 +59,51 @@ class RegistratonController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const {
-      student_id,
-      plan_id,
-      start_date,
-      end_date,
-      price,
-    } = await Registraton.update(req.body);
+    const { student_id, plan_id } = req.body;
 
-    return res.json({
-      id,
-      student_id,
-      plan_id,
-      start_date,
-      end_date,
-      price,
-    });
+    try {
+      const registration = await Registraton.findByPk(id);
+
+      if (
+        student_id !== registration.student_id ||
+        plan_id !== registration.plan_id
+      ) {
+        const registratonExists = await Registraton.findOne({
+          where: { student_id, plan_id },
+        });
+
+        if (registratonExists) {
+          return res
+            .status(400)
+            .json({ error: 'Student already exists for this plan' });
+        }
+      }
+
+      const { start_date, end_date, price } = await registration.update(
+        req.body
+      );
+
+      return res.json({
+        id,
+        student_id,
+        plan_id,
+        start_date,
+        end_date,
+        price,
+      });
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const registraton = await Registraton.destroy(id);
-    return res.json(registraton);
+    try {
+      const registraton = await Registraton.destroy({ where: { id } });
+      return res.json(registraton);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 }
 

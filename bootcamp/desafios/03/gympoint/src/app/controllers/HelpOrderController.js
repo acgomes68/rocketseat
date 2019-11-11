@@ -55,23 +55,45 @@ class HelpOrderController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { student_id, question, answer, answer_at } = await HelpOrder.update(
-      req.body
-    );
+    const { question } = req.body;
 
-    return res.json({
-      id,
-      student_id,
-      question,
-      answer,
-      answer_at,
-    });
+    try {
+      const helpOrder = await HelpOrder.findByPk(id);
+
+      if (question !== helpOrder.question) {
+        const helpOrderExists = await helpOrder.findOne({
+          where: { question },
+        });
+
+        if (helpOrderExists) {
+          return res.status(400).json({ error: 'Help order already exists' });
+        }
+      }
+
+      const { student_id, answer, answer_at } = await helpOrder.update(
+        req.body
+      );
+
+      return res.json({
+        id,
+        student_id,
+        question,
+        answer,
+        answer_at,
+      });
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const helpOrder = await HelpOrder.destroy(id);
-    return res.json(helpOrder);
+    try {
+      const helpOrder = await HelpOrder.destroy({ where: { id } });
+      return res.json(helpOrder);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 }
 
