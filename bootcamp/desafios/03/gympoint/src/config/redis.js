@@ -4,9 +4,9 @@ dotenv.config({
   path: process.env.NODE_ENV === 'testing' ? '.env.testing' : '.env',
 });
 
-const { AUTH_SECRET, AUTH_EXPIRESIN } = process.env;
+const { REDIS_HOST, REDIS_PORT } = process.env;
 
 export default {
-  secret: AUTH_SECRET,
-  expiresIn: AUTH_EXPIRESIN,
+  host: REDIS_HOST,
+  port: REDIS_PORT,
 };

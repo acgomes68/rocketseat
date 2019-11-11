@@ -6,6 +6,7 @@ services:
     depends_on:
       - postgres
       - mongo
+      - redis
     image: acgomes68/alpine-node:latest
     container_name: bootcamp-${APP_NAME}
     command: npm start
@@ -23,6 +24,8 @@ services:
     - ${POSTGRES_PORT}:5432
 
   mongo:
+    depends_on:
+      - postgres
     image: mvertes/alpine-mongo:latest
     container_name: mongo-${MONGO_DATABASE}
     ports:

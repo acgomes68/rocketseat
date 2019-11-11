@@ -4,7 +4,8 @@ services:
   desafio-03:
     build: .
     depends_on:
-      - postgres    
+      - postgres
+      - redis
     image: acgomes68/alpine-node:latest
     container_name: bootcamp-${APP_NAME}
     command: npm start
@@ -15,8 +16,14 @@ services:
 
   postgres:
     image: postgres:11-alpine
-    container_name: postgres-${APP_NAME}
+    container_name: postgres-${POSTGRES_DATABASE}
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
     ports:
-    - ${DB_PORT}:5432
+    - ${POSTGRES_PORT}:5432
+
+  redis:
+    image: redis:alpine
+    container_name: redis-${REDIS_DATABASE}
+    ports:
+    - ${REDIS_PORT}:6379
