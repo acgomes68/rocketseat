@@ -24,9 +24,7 @@ class PlanController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { id, title, duration, price } = await Plan.create(
-      req.body
-    );
+    const { id, title, duration, price } = await Plan.create(req.body);
 
     return res.json({
       id,
@@ -48,7 +46,7 @@ class PlanController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { title, duration, price } = await plan.update(req.body);
+    const { title, duration, price } = await Plan.update(req.body);
 
     return res.json({
       id,

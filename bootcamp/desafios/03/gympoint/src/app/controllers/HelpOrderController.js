@@ -25,9 +25,13 @@ class HelpOrderController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { id, student_id, question, answer, answer_at } = await HelpOrder.create(
-      req.body
-    );
+    const {
+      id,
+      student_id,
+      question,
+      answer,
+      answer_at,
+    } = await HelpOrder.create(req.body);
 
     return res.json({
       id,
@@ -51,7 +55,9 @@ class HelpOrderController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { student_id, question, answer, answer_at } = await helpOrder.update(req.body);
+    const { student_id, question, answer, answer_at } = await HelpOrder.update(
+      req.body
+    );
 
     return res.json({
       id,

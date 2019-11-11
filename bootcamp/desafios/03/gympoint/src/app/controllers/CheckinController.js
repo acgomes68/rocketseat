@@ -22,9 +22,7 @@ class CheckinController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { id, student_id } = await Checkin.create(
-      req.body
-    );
+    const { id, student_id } = await Checkin.create(req.body);
 
     return res.json({
       id,
@@ -42,7 +40,7 @@ class CheckinController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { student_id } = await checkin.update(req.body);
+    const { student_id } = await Checkin.update(req.body);
 
     return res.json({
       id,

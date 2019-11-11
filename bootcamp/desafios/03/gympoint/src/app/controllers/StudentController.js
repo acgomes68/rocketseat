@@ -3,23 +3,21 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    try{
+    try {
       const students = await Student.findAll();
       return res.json(students);
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
   async show(req, res) {
     const { id } = req.params;
-    try{
+    try {
       const student = await Student.findByPk(id);
       return res.json(student);
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
@@ -59,9 +57,8 @@ class StudentController {
         weight,
         height,
       });
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
@@ -81,7 +78,7 @@ class StudentController {
 
     const { email } = req.body;
 
-    try{
+    try {
       const student = await Student.findByPk(id);
 
       if (email !== student.email) {
@@ -102,20 +99,18 @@ class StudentController {
         weight,
         height,
       });
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    try{
+    try {
       const student = await Student.destroy({ where: { id } });
       return res.json(student);
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 }

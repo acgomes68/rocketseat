@@ -4,23 +4,21 @@ import Student from '../models/Student';
 
 class UserController {
   async index(req, res) {
-    try{
+    try {
       const users = await User.findAll();
       return res.json(users);
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
   async show(req, res) {
     const { id } = req.params;
-    try{
+    try {
       const user = await User.findByPk(id);
       return res.json(user);
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
@@ -39,8 +37,10 @@ class UserController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    try{
-      const userExists = await User.findOne({ where: { email: req.body.email } });
+    try {
+      const userExists = await User.findOne({
+        where: { email: req.body.email },
+      });
 
       if (userExists) {
         return res.status(400).json({ error: 'User already exists' });
@@ -48,12 +48,13 @@ class UserController {
 
       // Se o e-mail do usuário for de um aluno, cadastra com senha vazia paa evitar
       // que o mesmo possa se autenticar
-      const isStudent = await Student.findOne({ where: { email: req.body.email } });
+      const isStudent = await Student.findOne({
+        where: { email: req.body.email },
+      });
       if (isStudent) {
         req.body.isStudent = true;
         req.body.password = '';
-      }
-      else {
+      } else {
         req.body.isStudent = false;
       }
 
@@ -64,9 +65,8 @@ class UserController {
         name,
         email,
       });
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
@@ -91,7 +91,7 @@ class UserController {
 
     const { email, oldPassword } = req.body;
 
-    try{
+    try {
       const user = await User.findByPk(req.userId);
 
       if (email !== user.email) {
@@ -112,8 +112,7 @@ class UserController {
       if (isStudent) {
         req.body.isStudent = true;
         req.body.password = '';
-      }
-      else {
+      } else {
         req.body.isStudent = false;
       }
 
@@ -124,20 +123,18 @@ class UserController {
         name,
         email,
       });
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    try{
+    try {
       const user = await User.destroy({ where: { id } });
       return res.json(user);
-    }
-    catch(error) {
-      return res.status(502).json({ "error": error });
+    } catch (error) {
+      return res.status(502).json({ error });
     }
   }
 }
