@@ -24,10 +24,8 @@ routes.get('/students/:id/checkins', CheckinController.show);
 routes.post('/students/:id/checkins', CheckinController.store);
 
 // Students Help Orders
-routes.get('/students/help-orders/no-answer', HelpOrderController.index);
 routes.get('/students/:id/help-orders', HelpOrderController.show);
 routes.post('/students/:id/help-orders', HelpOrderController.store);
-routes.put('/help-orders/:id/answer', HelpOrderController.update);
 
 /*------------------------------------------------------------------*/
 

@@ -1,5 +1,11 @@
 import * as Yup from 'yup';
+import { parseISO, addMonths } from 'date-fns';
 import Registraton from '../models/Registration';
+import Plan from '../models/Plan';
+import Student from '../models/Student';
+
+import RegistrationMail from '../jobs/RegistrationMail';
+import Queue from '../../lib/Queue';
 
 class RegistratonController {
   async index(req, res) {
@@ -18,31 +24,68 @@ class RegistratonController {
       student_id: Yup.number().required(),
       plan_id: Yup.number().required(),
       start_date: Yup.date().required(),
-      end_date: Yup.date().required(),
-      price: Yup.number.required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const {
-      id,
-      student_id,
-      plan_id,
-      start_date,
-      end_date,
-      price,
-    } = await Registraton.create(req.body);
+    const { student_id } = req.body;
 
-    return res.json({
-      id,
-      student_id,
-      plan_id,
-      start_date,
-      end_date,
-      price,
-    });
+    try {
+      const student = await Student.findByPk(student_id);
+
+      if (!student) {
+        return res.status(400).json({ error: 'Student not found' });
+      }
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
+
+    const { plan_id } = req.body;
+
+    try {
+      const plan = await Plan.findByPk(plan_id);
+
+      if (!plan) {
+        return res.status(400).json({ error: 'Plan not found' });
+      }
+
+      const { start_date } = req.body;
+      const price = plan.duration * plan.price;
+      const end_date = addMonths(parseISO(start_date), plan.duration);
+
+      const new_registration = await Registraton.create({
+        plan_id,
+        student_id,
+        start_date,
+        end_date,
+        price,
+      });
+
+      const registration = await Registraton.findByPk(new_registration.id, {
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+          {
+            model: Plan,
+            as: 'plan',
+            attributes: ['title', 'price'],
+          },
+        ],
+      });
+
+      await Queue.add(RegistrationMail.key, {
+        registration,
+      });
+
+      return res.json(registration);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async update(req, res) {
