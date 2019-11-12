@@ -1,22 +1,48 @@
 import * as Yup from 'yup';
-import { parseISO, addMonths } from 'date-fns';
-import Registraton from '../models/Registration';
+import { parseISO, addMonths, isBefore } from 'date-fns';
+import Registration from '../models/Registration';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
 
 import RegistrationMail from '../jobs/RegistrationMail';
 import Queue from '../../lib/Queue';
 
-class RegistratonController {
+class RegistrationController {
   async index(req, res) {
-    const registratons = await Registraton.findAll();
-    return res.json(registratons);
+    const registrations = await Registration.findAll({
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'price'],
+        },
+      ],
+    });
+    return res.json(registrations);
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const registraton = await Registraton.findByPk(id);
-    return res.json(registraton);
+    const registration = await Registration.findByPk(id, {
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'price'],
+        },
+      ],
+    });
+    return res.json(registration);
   }
 
   async store(req, res) {
@@ -30,7 +56,27 @@ class RegistratonController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { student_id } = req.body;
+    const { student_id, plan_id, start_date } = req.body;
+
+    if (isBefore(parseISO(start_date), new Date())) {
+      return res.status(400).json({
+        error: 'Past dates are not permitted',
+      });
+    }
+
+    try {
+      const registrationExists = await Registration.findOne({
+        where: { student_id, plan_id },
+      });
+
+      if (registrationExists) {
+        return res.status(400).json({
+          error: 'Student already has a valid registration for this plan',
+        });
+      }
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
 
     try {
       const student = await Student.findByPk(student_id);
@@ -42,8 +88,6 @@ class RegistratonController {
       return res.status(502).json({ error });
     }
 
-    const { plan_id } = req.body;
-
     try {
       const plan = await Plan.findByPk(plan_id);
 
@@ -51,11 +95,10 @@ class RegistratonController {
         return res.status(400).json({ error: 'Plan not found' });
       }
 
-      const { start_date } = req.body;
       const price = plan.duration * plan.price;
       const end_date = addMonths(parseISO(start_date), plan.duration);
 
-      const new_registration = await Registraton.create({
+      const new_registration = await Registration.create({
         plan_id,
         student_id,
         start_date,
@@ -63,7 +106,7 @@ class RegistratonController {
         price,
       });
 
-      const registration = await Registraton.findByPk(new_registration.id, {
+      const registration = await Registration.findByPk(new_registration.id, {
         include: [
           {
             model: Student,
@@ -94,46 +137,62 @@ class RegistratonController {
       student_id: Yup.number(),
       plan_id: Yup.number(),
       start_date: Yup.date(),
-      end_date: Yup.date(),
-      price: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { student_id, plan_id } = req.body;
+    const { student_id, plan_id, start_date } = req.body;
+
+    if (isBefore(parseISO(start_date), new Date())) {
+      return res.status(400).json({
+        error: 'Past dates are not permitted',
+      });
+    }
 
     try {
-      const registration = await Registraton.findByPk(id);
+      const registration = await Registration.findByPk(id);
 
       if (
         student_id !== registration.student_id ||
         plan_id !== registration.plan_id
       ) {
-        const registratonExists = await Registraton.findOne({
+        const registrationExists = await Registration.findOne({
           where: { student_id, plan_id },
         });
 
-        if (registratonExists) {
-          return res
-            .status(400)
-            .json({ error: 'Student already exists for this plan' });
+        if (registrationExists) {
+          return res.status(400).json({
+            error: 'Student already has a valid registration for this plan',
+          });
         }
       }
 
-      const { start_date, end_date, price } = await registration.update(
-        req.body
-      );
+      const student = await Student.findByPk(student_id);
 
-      return res.json({
-        id,
-        student_id,
+      if (!student) {
+        return res.status(400).json({ error: 'Student not found' });
+      }
+
+      const plan = await Plan.findByPk(plan_id);
+
+      if (!plan) {
+        return res.status(400).json({ error: 'Plan not found' });
+      }
+
+      const price = plan.duration * plan.price;
+      const end_date = addMonths(parseISO(start_date), plan.duration);
+
+      await registration.update({
         plan_id,
+        student_id,
         start_date,
         end_date,
         price,
       });
+
+      return res.json(registration);
     } catch (error) {
       return res.status(502).json({ error });
     }
@@ -142,12 +201,12 @@ class RegistratonController {
   async delete(req, res) {
     const { id } = req.params;
     try {
-      const registraton = await Registraton.destroy({ where: { id } });
-      return res.json(registraton);
+      const registration = await Registration.destroy({ where: { id } });
+      return res.json(registration);
     } catch (error) {
       return res.status(502).json({ error });
     }
   }
 }
 
-export default new RegistratonController();
+export default new RegistrationController();
