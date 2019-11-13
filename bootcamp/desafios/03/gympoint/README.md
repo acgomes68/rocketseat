@@ -15,74 +15,87 @@ Para atutenticação das rotas restritas foi utilizado o JWT.
 No que diz respeito ao controle e captura de exceções foram utilizados blocos try/catch em conjunto com a biblioteca Youch para o ambiente DEV e a biblioteca sentry para o ambiente PRD.
 
 De forma mais detalhada, foram utilizados os seguintes plugins, componentes e bibliotecas:
-- bee-queue: gestão de filas de execução e integração com Redis;
+- @sentry/node: captura de exceções em ambiente PRD;
 - bcryptjs: geração de hashes utilizados no armazenamento de senhas;
+- bee-queue: gestão de filas de execução e integração com Redis;
 - date-fns: manipulação, formatação e cálculos com datas e horas;
 - dotenv: manipulação de variáveis de ambiente;
-- ESLint padrão AirBnB, Prettier, EditorConfig e Sucrase: estilização, formatação e padronização de código;
-- JWT: autenticação, controle de sessão e verificação de acesso às rotas restritas;
+- eslint padrão AirBnB, prettier, editorconfig (vsCode plugin) e sucrase: estilização, formatação e padronização de código;
+- jsonwebtoken: autenticação, controle de sessão e verificação de acesso às rotas restritas;
 - nodemailer: envio de e-mail através do Node.js;
+- nodemon: execução do node como serviço em background para ambiente DEV;
 - pg: integração com Postgres;
-- sentry: captura de exceções em ambiente PRD;
-- Sequelize: ORM para abstração e persistência da camada de dados (model), criação e gerenciamento de migrations e seeds;
+- sequelize: ORM para abstração e persistência da camada de dados (model), criação e gerenciamento de migrations e seeds;
 - youch: captura de exceções em ambiente DEV;
 - yup: validação e consistência dos dados de entrada;
 
 Estrutura de diretórios:
-
 ```
-.
-├── app
-│   ├── controllers
-│   │   ├── CheckinController.js
-│   │   ├── HelpOrderController.js
-│   │   ├── PlanController.js
-│   │   ├── RegistrationController.js
-│   │   ├── SessionController.js
-│   │   ├── StudentController.js
-│   │   └── UserController.js
-│   ├── jobs
-│   │   ├── HelpOrderMail.js
-│   │   └── RegistrationMail.js
-│   ├── middlewares
-│   │   └── auth.js
-│   ├── models
-│   │   ├── Checkin.js
-│   │   ├── HelpOrder.js
-│   │   ├── Plan.js
-│   │   ├── Registration.js
-│   │   ├── Student.js
-│   │   └── User.js
-│   └── views
-│       └── emails
-│           ├── layouts
-│           │   └── default.hbs
-│           ├── partials
-│           │   └── footer.hbs
-│           ├── helpOrder.hbs
-│           └── registration.hbs
-├── config
-│   ├── auth.js
-│   ├── database.js
-│   ├── mail.js
-│   ├── redis.js
-│   └── sentry.js
-├── database
-│   ├── migrations
-│   │   ├── 20191022083937-create-users.js
-│   │   ├── 20191029055637-create-students.js
-│   │   ├── 20191029075358-create-plans.js
-│   │   ├── 20191029075419-create-registrations.js
-│   │   ├── 20191029075444-create-checkins.js
-│   │   └── 20191029075500-create-help_orders.js
-│   ├── seeds
-│   │   ├── 20191025050052-admin-user.js
-│   │   └── 20191029075819-basic-plans.js
-│   └── index.js
-├── lib
-│   ├── Mail.js
-│   └── Queue.js
-├── app.js
-├── queue.js
-├── routes.js
-└── server.js
+├── src
+├── ├── app
+├── │   ├── controllers
+├── │   │   ├── CheckinController.js
+├── │   │   ├── HelpOrderController.js
+├── │   │   ├── PlanController.js
+├── │   │   ├── RegistrationController.js
+├── │   │   ├── SessionController.js
+├── │   │   ├── StudentController.js
+├── │   │   └── UserController.js
+├── │   ├── jobs
+├── │   │   ├── HelpOrderMail.js
+├── │   │   └── RegistrationMail.js
+├── │   ├── middlewares
+├── │   │   └── auth.js
+├── │   ├── models
+├── │   │   ├── Checkin.js
+├── │   │   ├── HelpOrder.js
+├── │   │   ├── Plan.js
+├── │   │   ├── Registration.js
+├── │   │   ├── Student.js
+├── │   │   └── User.js
+├── │   └── views
+├── │       └── emails
+├── │           ├── layouts
+├── │           │   └── default.hbs
+├── │           ├── partials
+├── │           │   └── footer.hbs
+├── │           ├── helpOrder.hbs
+├── │           └── registration.hbs
+├── ├── config
+├── │   ├── auth.js
+├── │   ├── database.js
+├── │   ├── mail.js
+├── │   ├── redis.js
+├── │   └── sentry.js
+├── ├── database
+├── │   ├── migrations
+├── │   │   ├── 20191022083937-create-users.js
+├── │   │   ├── 20191029055637-create-students.js
+├── │   │   ├── 20191029075358-create-plans.js
+├── │   │   ├── 20191029075419-create-registrations.js
+├── │   │   ├── 20191029075444-create-checkins.js
+├── │   │   └── 20191029075500-create-help_orders.js
+├── │   ├── seeds
+├── │   │   ├── 20191025050052-admin-user.js
+├── │   │   └── 20191029075819-basic-plans.js
+├── │   └── index.js
+├── ├── lib
+├── │   ├── Mail.js
+├── │   └── Queue.js
+├── ├── app.js
+├── ├── queue.js
+├── ├── routes.js
+├── └── server.js.dockerignore
+├── .editorconfig
+├── .env
+├── .env.example
+├── .eslintrc.js
+├── .gitignore
+├── .prettierrc
+├── .sequelizerc
+├── docker-compose.yml
+├── Dockerfile
+├── nodemon.json
+├── package.json
+├── README.md
+└── yarn.lock```
