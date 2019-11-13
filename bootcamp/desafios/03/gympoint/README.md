@@ -29,6 +29,7 @@ De forma mais detalhada, foram utilizados os seguintes plugins, componentes e bi
 - <strong>youch</strong>: captura de exceções em ambiente DEV;
 - <strong>yup</strong>: validação e consistência dos dados de entrada;
 
+
 Estrutura de diretórios:
 ```
 ├── src
