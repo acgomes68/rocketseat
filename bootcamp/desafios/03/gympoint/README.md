@@ -29,6 +29,8 @@ De forma mais detalhada, foram utilizados os seguintes plugins, componentes e bi
 - yup: validação e consistência dos dados de entrada;
 
 Estrutura de diretórios:
+
+```
 .
 ├── app
 │   ├── controllers
