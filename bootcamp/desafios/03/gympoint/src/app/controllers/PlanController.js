@@ -3,14 +3,27 @@ import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
-    const plans = await Plan.findAll();
-    return res.json(plans);
+    try {
+      const plans = await Plan.findAll();
+      return res.json(plans);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const plan = await Plan.findByPk(id);
-    return res.json(plan);
+    try {
+      const plan = await Plan.findByPk(id);
+
+      if (!plan) {
+        return res.status(400).json({ error: 'Plan not found' });
+      }
+
+      return res.json(plan);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async store(req, res) {
@@ -24,14 +37,18 @@ class PlanController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { id, title, duration, price } = await Plan.create(req.body);
+    try {
+      const { id, title, duration, price } = await Plan.create(req.body);
 
-    return res.json({
-      id,
-      title,
-      duration,
-      price,
-    });
+      return res.json({
+        id,
+        title,
+        duration,
+        price,
+      });
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async update(req, res) {
@@ -50,6 +67,10 @@ class PlanController {
 
     try {
       const plan = await Plan.findByPk(id);
+
+      if (!plan) {
+        return res.status(400).json({ error: 'Plan not found' });
+      }
 
       if (title !== plan.title) {
         const planExists = await Plan.findOne({ where: { title } });
@@ -75,7 +96,11 @@ class PlanController {
   async delete(req, res) {
     const { id } = req.params;
     try {
-      const plan = await Plan.destroy({ where: { id } });
+      const plan = await Plan.findByPk(id);
+      if (!plan) {
+        return res.status(400).json({ error: 'Plan not found' });
+      }
+      await plan.destroy();
       return res.json(plan);
     } catch (error) {
       return res.status(502).json({ error });

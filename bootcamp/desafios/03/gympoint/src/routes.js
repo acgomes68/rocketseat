@@ -61,8 +61,8 @@ routes.put('/registrations/:id', RegistrationController.update);
 routes.delete('/registrations/:id', RegistrationController.delete);
 
 // Help Orders
-routes.get('/help-orders/noanswer', HelpOrderController.show);
-routes.post('/help-orders/:id/answer', HelpOrderController.store);
+routes.get('/help-orders/no-answer', HelpOrderController.index);
+routes.put('/help-orders/:id/answer', HelpOrderController.update);
 
 /*------------------------------------------------------------------*/
 

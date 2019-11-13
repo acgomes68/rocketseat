@@ -1,95 +1,137 @@
 import * as Yup from 'yup';
 import HelpOrder from '../models/HelpOrder';
+import Student from '../models/Student';
+
+import HelpOrderMail from '../jobs/HelpOrderMail';
+import Queue from '../../lib/Queue';
 
 class HelpOrderController {
   async index(req, res) {
-    const helpOrders = await HelpOrder.findAll();
-    return res.json(helpOrders);
-  }
-
-  async show(req, res) {
-    const { id } = req.params;
-    const helpOrder = await HelpOrder.findByPk(id);
-    return res.json(helpOrder);
-  }
-
-  async store(req, res) {
-    const schema = Yup.object().shape({
-      student_id: Yup.number().required(),
-      question: Yup.string().required(),
-      answer: Yup.string(),
-      answer_at: Yup.date(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
-    const {
-      id,
-      student_id,
-      question,
-      answer,
-      answer_at,
-    } = await HelpOrder.create(req.body);
-
-    return res.json({
-      id,
-      student_id,
-      question,
-      answer,
-      answer_at,
-    });
-  }
-
-  async update(req, res) {
-    const { id } = req.params;
-    const schema = Yup.object().shape({
-      student_id: Yup.number(),
-      question: Yup.string(),
-      answer: Yup.string(),
-      answer_at: Yup.date(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
-    const { question } = req.body;
-
     try {
-      const helpOrder = await HelpOrder.findByPk(id);
-
-      if (question !== helpOrder.question) {
-        const helpOrderExists = await helpOrder.findOne({
-          where: { question },
-        });
-
-        if (helpOrderExists) {
-          return res.status(400).json({ error: 'Help order already exists' });
-        }
-      }
-
-      const { student_id, answer, answer_at } = await helpOrder.update(
-        req.body
-      );
-
-      return res.json({
-        id,
-        student_id,
-        question,
-        answer,
-        answer_at,
+      const helpOrders = await HelpOrder.findAll({
+        where: { answer_at: null },
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+        ],
       });
+      if (!helpOrders || helpOrders.length === 0) {
+        return res
+          .status(400)
+          .json({ error: 'There is no help requests to answer' });
+      }
+      return res.json(helpOrders);
     } catch (error) {
       return res.status(502).json({ error });
     }
   }
 
-  async delete(req, res) {
-    const { id } = req.params;
+  async show(req, res) {
+    const student_id = req.params.id;
     try {
-      const helpOrder = await HelpOrder.destroy({ where: { id } });
+      const student = await Student.findByPk(student_id);
+
+      if (!student) {
+        return res.status(400).json({ error: 'Student not found' });
+      }
+
+      const helpOrders = await HelpOrder.findAll({
+        where: { student_id },
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+        ],
+      });
+      if (!helpOrders) {
+        return res
+          .status(400)
+          .json({ error: 'You have no registered help requests' });
+      }
+      return res.json(helpOrders);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
+  }
+
+  async store(req, res) {
+    const student_id = req.params.id;
+    const schema = Yup.object().shape({
+      question: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const student = await Student.findByPk(student_id);
+
+    if (!student) {
+      return res.status(400).json({ error: 'Student not found' });
+    }
+
+    const { question } = req.body;
+
+    try {
+      const new_help_order = await HelpOrder.create({ student_id, question });
+
+      const helpOrder = await HelpOrder.findByPk(new_help_order.id, {
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+        ],
+      });
+      return res.json(helpOrder);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const schema = Yup.object().shape({
+      answer: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { answer } = req.body;
+    const answer_at = new Date();
+
+    try {
+      const helpOrder = await HelpOrder.findByPk(id, {
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+        ],
+      });
+
+      if (!helpOrder) {
+        return res.status(400).json({ error: 'Help request not found' });
+      }
+
+      await helpOrder.update({
+        answer,
+        answer_at,
+      });
+
+      await Queue.add(HelpOrderMail.key, {
+        helpOrder,
+      });
+
       return res.json(helpOrder);
     } catch (error) {
       return res.status(502).json({ error });

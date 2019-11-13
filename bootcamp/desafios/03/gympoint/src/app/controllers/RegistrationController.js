@@ -9,40 +9,48 @@ import Queue from '../../lib/Queue';
 
 class RegistrationController {
   async index(req, res) {
-    const registrations = await Registration.findAll({
-      include: [
-        {
-          model: Student,
-          as: 'student',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: Plan,
-          as: 'plan',
-          attributes: ['title', 'price'],
-        },
-      ],
-    });
-    return res.json(registrations);
+    try {
+      const registrations = await Registration.findAll({
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+          {
+            model: Plan,
+            as: 'plan',
+            attributes: ['title', 'price'],
+          },
+        ],
+      });
+      return res.json(registrations);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const registration = await Registration.findByPk(id, {
-      include: [
-        {
-          model: Student,
-          as: 'student',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: Plan,
-          as: 'plan',
-          attributes: ['title', 'price'],
-        },
-      ],
-    });
-    return res.json(registration);
+    try {
+      const registration = await Registration.findByPk(id, {
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name', 'email'],
+          },
+          {
+            model: Plan,
+            as: 'plan',
+            attributes: ['title', 'price'],
+          },
+        ],
+      });
+      return res.json(registration);
+    } catch (error) {
+      return res.status(502).json({ error });
+    }
   }
 
   async store(req, res) {
@@ -74,21 +82,13 @@ class RegistrationController {
           error: 'Student already has a valid registration for this plan',
         });
       }
-    } catch (error) {
-      return res.status(502).json({ error });
-    }
 
-    try {
       const student = await Student.findByPk(student_id);
 
       if (!student) {
         return res.status(400).json({ error: 'Student not found' });
       }
-    } catch (error) {
-      return res.status(502).json({ error });
-    }
 
-    try {
       const plan = await Plan.findByPk(plan_id);
 
       if (!plan) {
@@ -201,7 +201,11 @@ class RegistrationController {
   async delete(req, res) {
     const { id } = req.params;
     try {
-      const registration = await Registration.destroy({ where: { id } });
+      const registration = await Registration.findByPk(id);
+      if (!registration) {
+        return res.status(400).json({ error: 'Registration not found' });
+      }
+      await registration.destroy();
       return res.json(registration);
     } catch (error) {
       return res.status(502).json({ error });

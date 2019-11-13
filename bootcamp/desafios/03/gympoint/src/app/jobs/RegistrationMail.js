@@ -9,7 +9,7 @@ class RegistrationMail {
   async handle({ data }) {
     const { registration } = data;
 
-    console.log('A fila processou!');
+    console.log('Registration queue has been processed!');
 
     await Mail.sendMail({
       to: `${registration.student.name} <${registration.student.email}>`,

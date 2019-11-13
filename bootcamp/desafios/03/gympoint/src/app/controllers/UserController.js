@@ -16,6 +16,11 @@ class UserController {
     const { id } = req.params;
     try {
       const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+
       return res.json(user);
     } catch (error) {
       return res.status(502).json({ error });
@@ -131,7 +136,11 @@ class UserController {
   async delete(req, res) {
     const { id } = req.params;
     try {
-      const user = await User.destroy({ where: { id } });
+      const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+      await user.destroy();
       return res.json(user);
     } catch (error) {
       return res.status(502).json({ error });
