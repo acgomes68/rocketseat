@@ -1,7 +1,7 @@
 # rocketseat
 ## gostack
 ### desafios
-Backend da aplicação GymPoint usando Node.js com Express.js na arquitetura MVC e o Postgres como base de dados SQL. 
+Backend da aplicação <strong>GymPoint</strong> usando Node.js com Express.js na arquitetura MVC e o Postgres como base de dados SQL. 
 Para controle de fila de envio de e-mail foi utilizado o Redis.
 
 Foram utilizados containers Docker para o Node, Postgres e Redis em versões Alpine Linux.
