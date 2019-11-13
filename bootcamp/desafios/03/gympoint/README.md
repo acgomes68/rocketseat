@@ -1,33 +1,33 @@
 # rocketseat
 ## gostack
 ### desafios
-Backend da aplicação <strong>GymPoint</strong> usando Node.js com Express.js na arquitetura MVC e o Postgres como base de dados SQL. 
-Para controle de fila de envio de e-mail foi utilizado o Redis.
+Backend da aplicação <strong>GymPoint</strong> usando <strong>Node.js</strong> com <strong>Express.js</strong> na arquitetura <strong>MVC</strong> e o <strong>Postgres</strong> como base de dados <strong>SQL</strong>. 
+Para controle de fila de envio de e-mail foi utilizado o <strong>Redis</strong>.
 
-Foram utilizados containers Docker para o Node, Postgres e Redis em versões Alpine Linux.
+Foram utilizados containers <strong>Docker</strong> para o <strong>Node</strong>, <strong>Postgres</strong> e <strong>Redis</strong> em versões <strong>Alpine Linux</strong>.
 
-Nesse momento foram criadas as funcionalidades restritas de gestão de planos e matrículas, além das funcionalidades públicas de checkins e pedidos de auxílio. 
+Nesse momento foram criadas as <strong>funcionalidades restritas de gestão de planos e matrículas</strong>, além das <strong>funcionalidades públicas de checkins e pedidos de auxílio</strong>. 
 
-Em todos os casos citados envolveram a criação de migrations, seeds, models, controllers e atualização de rotas públicas e restritas.
+Em todos os casos citados envolveram a criação de <strong>migrations, seeds, models, controllers e atualização de rotas públicas e restritas</strong>.
 
-Para atutenticação das rotas restritas foi utilizado o JWT.
+Para atutenticação das rotas restritas foi utilizado o <strong>JWT</strong>.
 
-No que diz respeito ao controle e captura de exceções foram utilizados blocos try/catch em conjunto com a biblioteca Youch para o ambiente DEV e a biblioteca sentry para o ambiente PRD.
+No que diz respeito ao controle e captura de exceções foram utilizados <strong>blocos try/catch</strong> em conjunto com a <strong>biblioteca Youch</strong> para o <strong>ambiente DEV</strong> e a <strong>biblioteca sentry</strong> para o <strong>ambiente PRD</strong>.
 
 De forma mais detalhada, foram utilizados os seguintes plugins, componentes e bibliotecas:
-- @sentry/node: captura de exceções em ambiente PRD;
-- bcryptjs: geração de hashes utilizados no armazenamento de senhas;
-- bee-queue: gestão de filas de execução e integração com Redis;
-- date-fns: manipulação, formatação e cálculos com datas e horas;
-- dotenv: manipulação de variáveis de ambiente;
-- eslint padrão AirBnB, prettier, editorconfig (vsCode plugin) e sucrase: estilização, formatação e padronização de código;
-- jsonwebtoken: autenticação, controle de sessão e verificação de acesso às rotas restritas;
-- nodemailer: envio de e-mail através do Node.js;
-- nodemon: execução do node como serviço em background para ambiente DEV;
-- pg: integração com Postgres;
-- sequelize: ORM para abstração e persistência da camada de dados (model), criação e gerenciamento de migrations e seeds;
-- youch: captura de exceções em ambiente DEV;
-- yup: validação e consistência dos dados de entrada;
+- <strong>@sentry/node</strong>: captura de exceções em ambiente PRD;
+- <strong>bcryptjs</strong>: geração de hashes utilizados no armazenamento de senhas;
+- <strong>bee-queue</strong>: gestão de filas de execução e integração com Redis;
+- <strong>date-fns</strong>: manipulação, formatação e cálculos com datas e horas;
+- <strong>dotenv</strong>: manipulação de variáveis de ambiente;
+- <strong>eslint padrão AirBnB, prettier, editorconfig (vsCode plugin) e sucrase</strong>: estilização, formatação e padronização de código;
+- <strong>jsonwebtoken</strong>: autenticação, controle de sessão e verificação de acesso às rotas restritas;
+- <strong>nodemailer</strong>: envio de e-mail através do Node.js;
+- <strong>nodemon</strong>: execução do node como serviço em background para ambiente DEV;
+- <strong>pg</strong>: integração com Postgres;
+- <strong>sequelize</strong>: ORM para abstração e persistência da camada de dados (model), criação e gerenciamento de migrations e seeds;
+- <strong>youch</strong>: captura de exceções em ambiente DEV;
+- <strong>yup</strong>: validação e consistência dos dados de entrada;
 
 Estrutura de diretórios:
 ```
