@@ -28,7 +28,7 @@ De forma mais detalhada, foram utilizados os seguintes plugins, componentes e bi
 - <strong>sequelize</strong>: ORM para abstração e persistência da camada de dados (model), criação e gerenciamento de migrations e seeds;
 - <strong>youch</strong>: captura de exceções em ambiente DEV;
 - <strong>yup</strong>: validação e consistência dos dados de entrada;
-
+<br /><br />
 
 Estrutura de diretórios:
 ```
